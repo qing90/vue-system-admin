@@ -72,6 +72,42 @@ export const constantRoutes = [
         meta: { title: 'profile', icon: 'user', noCache: true }
       }
     ]
+  },
+  {
+    path: '/equ-management',
+    component: Layout,
+    redirect: '/equ-management/inventory',
+    name: 'Equmanger',
+    meta: {
+      title: 'equmanger',
+      icon: 'list'
+    },
+    children: [
+      {
+        path: 'inventory',
+        name: 'Inventory',
+        component: () => import('@/views/equ-management/inventory'),
+        meta: { title: 'inventory' }
+      },
+      {
+        path: 'inspect',
+        name: 'Inspect',
+        component: () => import('@/views/equ-management/inspect'),
+        meta: { title: 'inspect' }
+      },
+      {
+        path: 'attachment',
+        name: 'Attachment',
+        component: () => import('@/views/equ-management/attachment'),
+        meta: { title: 'attachment' }
+      },
+      {
+        path: 'materiel',
+        name: 'Materiel',
+        component: () => import('@/views/equ-management/materiel'),
+        meta: { title: 'materiel' }
+      }
+    ]
   }
 
 ]

@@ -47,7 +47,7 @@ export default {
     'shipRepairInginquiry': '修船询价',
     'repairOrder': '修船下单',
     'repairTracking': '修理跟踪',
-    
+
     'repairLegacy': '修理遗留记录',
     Table: 'Table',
     dynamicTable: '动态 Table',
@@ -75,7 +75,12 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: '国际化',
     externalLink: '外链',
-    profile: '个人中心'
+    profile: '个人中心',
+    equmanger: '安全设备管理',
+    inventory: '安全设备清单',
+    inspect: '定期检查记录',
+    attachment: '安全备件库存',
+    materiel: '安全物料库存'
   },
   navbar: {
     dashboard: '首页',
