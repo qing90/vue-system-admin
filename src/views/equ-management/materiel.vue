@@ -59,7 +59,6 @@
               :current-page.sync="currentPage"
               layout="total,prev, pager, next, jumper"
               :total="totalCount"
-              @current-change="handleCurrentChange"
             />
           </div>
         </el-tab-pane>
@@ -84,7 +83,6 @@
               :current-page.sync="currentPage"
               layout="total,prev, pager, next, jumper"
               :total="totalCount"
-              @current-change="handleCurrentChange"
             />
           </div>
         </el-tab-pane>
