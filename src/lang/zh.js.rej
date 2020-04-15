@@ -1,0 +1,15 @@
+diff a/src/lang/zh.js b/src/lang/zh.js	(rejected hunks)
+@@ -50 +50 @@ export default {
+-    
++
+@@ -79,5 +79,5 @@ export default {
+-    equmanger:"安全设备管理",
+-    inventory:'安全设备清单',
+-    inspect:"定期检查记录",
+-    attachment:"安全备件库存",
+-    materiel:"安全物料库存",
++    equmanger: '安全设备管理',
++    inventory: '安全设备清单',
++    inspect: '定期检查记录',
++    attachment: '安全备件库存',
++    materiel: '安全物料库存'
