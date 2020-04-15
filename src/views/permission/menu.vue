@@ -57,6 +57,7 @@ import { mapGetters } from 'vuex'
 import { deepClone } from '@/utils'
 import { getRoleRoutes } from '@/api/role'
 import i18n from '@/lang'
+import request from '@/utils/request'
 export default {
   name: 'PagePermission',
   data() {
@@ -94,6 +95,11 @@ export default {
   },
   created() {
     this.getRoutes()
+    request({ url: '/vue-element-admin/user/info', method: 'get', params: { token: 'admin-token' }}).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
   },
   methods: {
     submit() {

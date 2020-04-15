@@ -36,14 +36,6 @@ export default {
     'menu1-2-2': 'Menu 1-2-2',
     'menu1-3': 'Menu 1-3',
     menu2: 'Menu 2',
-    managementEfficiency: 'Management Efficiency',
-    efficiencyHome: 'Efficiency Home',
-    shipRepairingManagement: 'Ship Repairing Management',
-    'repairList': 'Repair List',
-    'shipRepairingApplication': 'Ship Repairing Application',
-    'applyForDetail': 'Apply For Detail',
-    'applyForDetail2': 'Apply For Detail 2',
-    'shipRepairInginquiry': 'Ship Repair Inginquiry',
     Table: 'Table',
     dynamicTable: 'Dynamic Table',
     dragTable: 'Drag Table',
@@ -71,7 +63,8 @@ export default {
     clipboardDemo: 'Clipboard',
     i18n: 'I18n',
     externalLink: 'External Link',
-    profile: 'Profile'
+    profile: 'Profile',
+    country: '国家/地区维护'
   },
   navbar: {
     dashboard: 'Dashboard',

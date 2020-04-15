@@ -36,19 +36,6 @@ export default {
     'menu1-2-2': '菜单 1-2-2',
     'menu1-3': '菜单 1-3',
     menu2: '菜单 2',
-    managementEfficiency: '机务管理',
-    efficiencyHome: '机务首页',
-    shipRepairingManagement: '修船管理',
-    'repairList': '修理项目库',
-    'dockRepairPlan': '坞修计划',
-    'shipRepairingApplication': '修船申请',
-    'applyForDetail': '申请详细',
-    'applyForDetail2': '申请详细2',
-    'shipRepairInginquiry': '修船询价',
-    'repairOrder': '修船下单',
-    'repairTracking': '修理跟踪',
-
-    'repairLegacy': '修理遗留记录',
     Table: 'Table',
     dynamicTable: '动态 Table',
     dragTable: '拖拽 Table',
@@ -76,11 +63,7 @@ export default {
     i18n: '国际化',
     externalLink: '外链',
     profile: '个人中心',
-    equmanger: '安全设备管理',
-    inventory: '安全设备清单',
-    inspect: '定期检查记录',
-    attachment: '安全备件库存',
-    materiel: '安全物料库存'
+    country: '国家/地区维护'
   },
   navbar: {
     dashboard: '首页',

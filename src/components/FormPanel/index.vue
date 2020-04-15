@@ -174,7 +174,7 @@ export default {
       type: Object,
       required: true
     },
-    rules: {
+    rules:{
       type: Object
     }
   },
