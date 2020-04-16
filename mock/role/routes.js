@@ -127,5 +127,52 @@ export const asyncRoutes = [
         meta: { title: 'country', icon: 'bug' }
       }
     ]
+  },
+  {
+    path: '/managementEfficiency',
+    component: 'layout',
+    redirect: '/nested/menu1/menu1-1',
+    name: 'Efficiency',
+    meta: {
+      title: 'managementEfficiency',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: 'shipRepairingManagement',
+        component: 'views/efficiency/shipRepairingManagement/index',// '',
+        name: 'Menu1',
+        meta: { title: 'shipRepairingManagement' },
+        redirect: '/nested/menu1/menu1-1',
+        children: [
+          {
+            path: 'repairList',
+            component: 'views/efficiency/shipRepairingManagement/repairList/repairList',
+            name: 'repairList',
+            meta: { title: 'repairList' }
+          },
+          {
+            path: 'shipRepairingApplication',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairApply/shipRepairApply',
+            name: 'ShipRepairingApplication',
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1',
+            meta: { title: 'shipRepairingApplication' },
+ 
+          },
+          {
+            path: 'repairLegacy',
+            component: 'views/efficiency/shipRepairingManagement/repairLegacy/repairLegacy',
+            name: 'repairLegacy',
+            meta: { title: 'repairLegacy' }
+          }
+        ]
+      },
+      {
+        path: 'efficiencyHome',
+        component: 'views/nested/menu1/menu1-3',
+        name: 'EfficiencyHome',
+        meta: { title: 'efficiencyHome' }
+      }
+    ]
   }
 ]
