@@ -127,5 +127,50 @@ export const asyncRoutes = [
         meta: { title: 'country', icon: 'bug' }
       }
     ]
+  },
+  {
+    path: '/equ-management',
+    component: 'layout',
+    redirect: '/equ-management/inventory',
+    name: 'Equmanger',
+    meta: {
+      title: 'equmanger',
+      icon: 'list'
+    },
+    children: [
+      {
+        path: 'inventory',
+        name: 'Inventory',
+        component: 'views/equ-management/inventory',
+        meta: {
+          title: 'inventory'
+        }
+      },
+      {
+        path: 'inspect',
+        name: 'Inspect',
+        component: 'views/equ-management/inspect',
+        meta: {
+          title: 'inspect'
+        }
+      },
+      {
+        path: 'attachment',
+        name: 'Attachment',
+        component: 'views/equ-management/attachment',
+        meta: {
+          title: 'attachment'
+        }
+      },
+      {
+        path: 'materiel',
+        name: 'Materiel',
+        component: 'views/equ-management/materiel',
+        meta: {
+          title: 'materiel'
+        }
+      },
+    ]
   }
+
 ]

@@ -63,7 +63,12 @@ export default {
     i18n: '国际化',
     externalLink: '外链',
     profile: '个人中心',
-    country: '国家/地区维护'
+    country: '国家/地区维护',
+    equmanger: '安全设备管理',
+    inventory: '安全设备清单',
+    inspect: '定期检查记录',
+    attachment: '安全备件库存',
+    materiel: '安全物料库存'
   },
   navbar: {
     dashboard: '首页',
