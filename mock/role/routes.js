@@ -128,49 +128,96 @@ export const asyncRoutes = [
       }
     ]
   },
+  
   {
-    path: '/equ-management',
+    path: '/managementEfficiency',
     component: 'layout',
-    redirect: '/equ-management/inventory',
-    name: 'Equmanger',
+    redirect: '/nested/menu1/menu1-1',
+    name: 'Efficiency',
     meta: {
-      title: 'equmanger',
-      icon: 'list'
+      title: 'managementEfficiency',
+      icon: 'nested'
     },
     children: [
       {
-        path: 'inventory',
-        name: 'Inventory',
-        component: 'views/equ-management/inventory',
-        meta: {
-          title: 'inventory'
-        }
+        path: 'shipRepairingManagement',
+        component: 'views/efficiency/shipRepairingManagement/index',// '',
+        name: 'Menu1',
+        meta: { title: 'shipRepairingManagement' },
+        redirect: '/nested/menu1/menu1-1',
+        children: [
+          {
+            path: 'repairList',
+            component: 'views/efficiency/shipRepairingManagement/repairList/repairList',
+            name: 'repairList',
+            meta: { title: 'repairList' }
+          },
+          {
+            path: 'shipRepairingApplication',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairApply/shipRepairApply',
+            name: 'ShipRepairingApplication',
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1',
+            meta: { title: 'shipRepairingApplication' },
+
+          },
+          {
+            path: 'repairLegacy',
+            component: 'views/efficiency/shipRepairingManagement/repairLegacy/repairLegacy',
+            name: 'repairLegacy',
+            meta: { title: 'repairLegacy' }
+          }
+        ]
       },
       {
-        path: 'inspect',
-        name: 'Inspect',
-        component: 'views/equ-management/inspect',
-        meta: {
-          title: 'inspect'
-        }
+        path: 'efficiencyHome',
+        component: 'views/nested/menu1/menu1-3',
+        name: 'EfficiencyHome',
+        meta: { title: 'efficiencyHome' }
       },
       {
-        path: 'attachment',
-        name: 'Attachment',
-        component: 'views/equ-management/attachment',
+        path: '/equ-management',
+        component: 'views/equ-management/index',
+        name: 'Equmanger',
         meta: {
-          title: 'attachment'
-        }
+          title: 'equmanger',
+        },
+        children: [
+          {
+            path: 'inventory',
+            name: 'Inventory',
+            component: 'views/equ-management/inventory/index',
+            meta: {
+              title: 'inventory'
+            }
+          },
+          {
+            path: 'inspect',
+            name: 'Inspect',
+            component: 'views/equ-management/inspect/index',
+            meta: {
+              title: 'inspect'
+            }
+          },
+          {
+            path: 'attachment',
+            name: 'Attachment',
+            component: 'views/equ-management/attachment/index',
+            meta: {
+              title: 'attachment'
+            }
+          },
+          {
+            path: 'materiel',
+            name: 'Materiel',
+            component: 'views/equ-management/materiel/index',
+            meta: {
+              title: 'materiel'
+            }
+          },
+    
+        ]
       },
-      {
-        path: 'materiel',
-        name: 'Materiel',
-        component: 'views/equ-management/materiel',
-        meta: {
-          title: 'materiel'
-        }
-      },
-    ]
+    ],
   }
 
 ]
