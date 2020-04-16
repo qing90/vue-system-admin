@@ -1,9 +1,11 @@
 <template>
   <div class="app-container">
-    <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item>修船管理</el-breadcrumb-item>
-      <el-breadcrumb-item>修船项目库</el-breadcrumb-item>
-    </el-breadcrumb>
+    <div>
+      <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item>修船管理</el-breadcrumb-item>
+        <el-breadcrumb-item>修船项目库</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
     <div class="router-body">
       <div class="left-side">
         <el-tree
@@ -16,14 +18,14 @@
         />
       </div>
       <div class="right-side">
-        <h3>修船项目列表</h3>
         <table-component
           ref="tableComponent"
-          :auth="tableHeight"
+          :height="tableHeight"
           :data="tableData"
+          :options="options"
           :pagination="listQuery"
           :columns="columns"
-          :options="options"
+          :operates="operates"
           @handleRowClick="handleRowClick"
           @handleSelectionChange="handleSelectionChange"
           @handleIndexChange="handleIndexChange"
@@ -36,20 +38,53 @@
 
 <script>
 import tableComponent from '@/components/TableComponent'
-import request from '@/utils/request'
+import { queryCountry, exportCountry, deleteCountry } from '@/api/country'
+import { parseDsErrorMessage } from '@/utils/responseUtil'
 export default {
-  name: 'RepairList',
   components: { tableComponent },
   data() {
     return {
+      dialogConditionVisible: false,
       checkStrictly: false,
       defaultProps: {
         children: 'children',
         label: 'label'
       },
-      deviceData: [],
+      conditionList: [{
+        name: 'countryCode',
+        operator: '',
+        value: ''
+      }],
+      nameList: [{
+        label: '国家/地区代码',
+        value: 'countryCode'
+      }, {
+        label: '国家/地区中文名',
+        value: 'countryNameZh'
+      }, {
+        label: '国家/地区英文名',
+        value: 'countryNameEn'
+      }, {
+        label: '是否有效',
+        value: 'validFlag'
+      }, {
+        label: '创建人',
+        value: 'creator'
+      }],
+      validList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
       tableData: [],
+      deviceData: [],
       tableHeight: '', // 高度
+      // table 的参数
+      options: {
+        border: true,
+        stripe: true, // 是否为斑马纹 table
+        loading: false, // 是否添加表格loading加载动画
+        highlightCurrentRow: true, // 是否支持当前行高亮显示
+        mutiSelect: true, // 是否支持列表项选中功能
+        pagination: true
+      },
+      // 需要展示的列
       columns: [
         {
           prop: 'index',
@@ -80,13 +115,38 @@ export default {
           label: '备注'
         }
       ],
-      options: {
-        border: true,
-        stripe: true, // 是否为斑马纹 table
-        loading: false, // 是否添加表格loading加载动画
-        highlightCurrentRow: true, // 是否支持当前行高亮显示
-        mutiSelect: true, // 是否支持列表项选中功能
-        pagination: true
+      // 列操作按钮
+      operates: {
+        list: [
+          {
+            id: '1',
+            label: '编辑',
+            type: 'primary',
+            show: true,
+            icon: 'el-icon-edit-outline',
+            plain: false,
+            disabled: false,
+            btnType: 'icon',
+            method: (index, row) => {
+              this.handleUpdate(row);
+            }
+          },
+          {
+            id: '2',
+            label: '删除',
+            type: 'danger',
+            icon: 'el-icon-delete',
+            show: true,
+            plain: false,
+            disabled: false,
+            btnType: 'icon',
+            method: (index, row) => {
+              this.handleDelete(row)
+            }
+          }
+        ],
+        fixed: false,
+        width: 230
       },
       listQuery: {
         page: 1,
@@ -96,6 +156,33 @@ export default {
         countryNameZh: '',
         countryNameEn: '',
         validFlag: undefined
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: '编辑',
+        create: '添加'
+      },
+      temp: {
+        id: undefined
+      },
+      rules: {
+        countryCode: [{
+          required: true,
+          message: '不能为空'
+        }],
+        countryNameZh: [{
+          required: true,
+          message: '不能为空'
+        }],
+        countryNameEn: [{
+          required: true,
+          message: '不能为空'
+        }],
+        validFlag: [{
+          required: true,
+          message: '请选择状态'
+        }]
       }
     }
   },
@@ -170,6 +257,48 @@ export default {
   },
   methods: {
 
+    // 查询方法
+    handleSearch() {
+      this.listQuery.page = 1
+      this.searchFn()
+    },
+    // 查询事件
+    searchFn() {
+      const data = {}
+      for (const key in this.listQuery) {
+        if (this.listQuery[key] !== '' && key !== 'total') {
+          data[key] = this.listQuery[key]
+        }
+      }
+      queryCountry(data).then(res => {
+        if (res.success) {
+          this.tableData = res.data.records
+          this.listQuery.total = parseInt(res.data.totalRecord)
+        } else {
+          this.$message({
+            message: '搜索失败',
+            type: 'error'
+          })
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+
+    /* 重置 */
+    resetFn() {
+      this.$refs.filter.resetFields()
+    },
+    /* 导出 */
+    handleExport() {
+      const data = {}
+      for (const key in this.listQuery) {
+        if (this.listQuery[key] !== '' && key !== 'total') {
+          data[key] = this.listQuery[key]
+        }
+      }
+      exportCountry(data)
+    },
     handleRowClick() {
 
     },
@@ -192,20 +321,37 @@ export default {
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate();
       });
-    }
+    },
 
+    handleDelete(row) {
+      deleteCountry({ id: row.id }).then(() => {
+        this.searchFn();
+        this.$notify({
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
+          duration: 2000
+        });
+      });
+    }
   }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss" scoped>
+.app-container{
+  .breadcrumb{
+    margin-bottom: 20px;
+  }
+}
+
 .router-body{
   overflow:hidden;
   .left-side{
-    width: 300px;
+    width: 20%;
     float: left;
   }
   .right-side{
-    width: 600px;
+    width: 75%;
     float: left;
   }
 }
