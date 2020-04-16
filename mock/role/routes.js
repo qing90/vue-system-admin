@@ -175,9 +175,10 @@ export const asyncRoutes = [
         meta: { title: 'efficiencyHome' }
       },
       {
-        path: '/equ-management',
+        path: 'equ-management',
         component: 'views/equ-management/index',
         name: 'Equmanger',
+        redirect: '/nested/menu1/menu1-1',
         meta: {
           title: 'equmanger',
         },
