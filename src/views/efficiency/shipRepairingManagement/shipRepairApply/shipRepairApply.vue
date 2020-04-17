@@ -69,15 +69,15 @@
         </div>
         <el-row :gutter="10">
           <el-col :span="7">
-            <el-form-item label="船舶名称：" label-width="80px" prop="validFlag">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
+            <el-form-item label="船舶名称：" label-width="120px" prop="shipCode">
+              <el-select v-model="temp.shipCode" placeholder="请选择">
                 <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="业务类别:" label-width="80px" prop="countryNameEn">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
+            <el-form-item label="业务类别:" label-width="150px" prop="repairType">
+              <el-select v-model="temp.repairType" placeholder="请选择">
                 <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
               </el-select>
             </el-form-item>
@@ -85,15 +85,13 @@
         </el-row>
         <el-row :gutter="10">
           <el-col :span="7">
-            <el-form-item label="计划抵厂日期:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
+            <el-form-item label="计划抵厂日期:" label-width="120px" prop=".planRepairDate">
+              <el-date-picker v-model="temp.planRepairDate" type="date" placeholder="选择日期" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="上次修理开始日期:" label-width="150px" prop="validFlag">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
+            <el-form-item label="上次修理开始日期:" label-width="150px" prop="lastRepairDate">
+              <el-date-picker v-model="temp.lastRepairDate" type="date" placeholder="选择日期" />
             </el-form-item>
           </el-col>
           <el-col :span="7">
@@ -111,15 +109,12 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="中间检验最晚日期:" label-width="150px" prop="validFlag">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
+              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
             <el-form-item label="特检最晚日期" label-width="100px" prop="countryNameEn">
-              <el-radio v-model="radio" label="1">是</el-radio>
-              <el-radio v-model="radio" label="2">否</el-radio>
+              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
             </el-form-item>
           </el-col>
         </el-row>
@@ -131,9 +126,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="申请日期:" label-width="150px" prop="validFlag">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
+              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -146,12 +139,12 @@
         </el-row>
         <el-row :gutter="10">
           <el-col :span="20">
-            <el-form-item label="备注:" label-width="60px" prop="countryNameEn">
+            <el-form-item label="备注:" label-width="120px" prop="countryNameEn">
               <el-input
                 v-model="temp.countryNameEn"
                 type="textarea"
                 :rows="3"
-                style="width: 70%; margin-left: 10px;"
+                style="width: 70%;"
                 placeholder="请输入"
               />
             </el-form-item>
@@ -172,6 +165,7 @@
 <script>
 import tableComponent from '@/components/TableComponent'
 import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country'
+import { getShipRepairpplyList } from '@/api/shipRepair/repairList'
 import { parseDsErrorMessage } from '@/utils/responseUtil'
 export default {
   components: { tableComponent },
@@ -220,43 +214,40 @@ export default {
       columns: [
         {
           prop: 'index',
-          label: '序号',
+          label: 'No',
           align: 'center',
-          width: '80'
+          width: '30'
         },
         {
-          prop: 'countryCode',
-          label: '国家/地区代码',
-          align: 'center',
-          width: '150'
+          prop: 'shipCode',
+          label: '船舶',
+          align: 'center'
         },
         {
-          prop: 'countryNameZh',
-          label: '国家/地区中文名'
+          prop: 'applyNo',
+          label: '申请单号'
         },
         {
-          prop: 'countryNameEn',
-          label: '国家/地区英文名'
+          prop: 'repairType',
+          label: '修理类别'
         },
         {
-          prop: 'validFlag',
-          label: '是否有效',
-          align: 'center',
-          width: '100',
-          render: (h, params) => {
-            return h(
-              'el-tag',
-              {
-                props: {
-                  type:
-                    params.row.validFlag
-                      ? 'success'
-                      : 'danger'
-                } // 组件的props
-              },
-              params.row.validFlag ? '生效' : '失效'
-            );
-          }
+          prop: 'planRepairDate',
+          label: '计划开始日期',
+          align: 'center'
+        },
+        {
+          prop: 'lastRepairDate',
+          label: '上次修理日期',
+          align: 'center'
+        },
+        {
+          prop: 'proposer',
+          label: '申请人'
+        },
+        {
+          prop: 'applyDate',
+          label: '申请日期'
         }
       ],
       // 列操作按钮
@@ -308,25 +299,31 @@ export default {
         create: '添加'
       },
       temp: {
-        id: undefined
+        shipCode: '',
+        applyNo: '',
+        repairType: '',
+        planRepairDate: '',
+        lastRepairDate: '',
+        proposer: '',
+        applyDate: ''
       },
       rules: {
-        countryCode: [{
-          required: true,
-          message: '不能为空'
-        }],
-        countryNameZh: [{
-          required: true,
-          message: '不能为空'
-        }],
-        countryNameEn: [{
-          required: true,
-          message: '不能为空'
-        }],
-        validFlag: [{
-          required: true,
-          message: '请选择状态'
-        }]
+        // countryCode: [{
+        //   required: true,
+        //   message: '不能为空'
+        // }],
+        // countryNameZh: [{
+        //   required: true,
+        //   message: '不能为空'
+        // }],
+        // countryNameEn: [{
+        //   required: true,
+        //   message: '不能为空'
+        // }],
+        // validFlag: [{
+        //   required: true,
+        //   message: '请选择状态'
+        // }]
       }
     }
   },
@@ -445,9 +442,10 @@ export default {
     createCountry() {
       this.$refs['dataForm'].validate(valid => {
         if (valid) {
-          this.temp.creator = 'admin'
-          this.temp.createTime = new Date()
-          addCountry(this.temp).then(response => this.handleAddResponse(response))
+          console.log(this.temp);
+          this.temp.creator = 'admin';
+          this.temp.createTime = new Date();
+          addCountry(this.temp).then(response => this.handleAddResponse(response));
         }
       })
     },
@@ -473,6 +471,7 @@ export default {
         if (valid) {
           this.temp.creator = 'admin';
           const tempData = Object.assign({}, this.temp);
+          console.log(this.temp);
           updateCountry(tempData).then(response => this.handleUpdateResponse(response));
         }
       });
@@ -495,7 +494,7 @@ export default {
     // 查询方法
     handleSearch() {
       this.listQuery.page = 1
-      this.searchFn()
+      this.searchFn();
     },
     // 查询事件
     searchFn() {
@@ -505,9 +504,9 @@ export default {
           data[key] = this.listQuery[key]
         }
       }
-      queryCountry(data).then(res => {
+      getShipRepairpplyList(data).then(res => {
         if (res.success) {
-          this.tableData = res.data.records
+          this.tableData = res.data.records;
           this.listQuery.total = parseInt(res.data.totalRecord)
         } else {
           this.$message({

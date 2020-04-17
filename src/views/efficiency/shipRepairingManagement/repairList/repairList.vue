@@ -118,32 +118,6 @@ export default {
       // 列操作按钮
       operates: {
         list: [
-          {
-            id: '1',
-            label: '编辑',
-            type: 'primary',
-            show: true,
-            icon: 'el-icon-edit-outline',
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleUpdate(row);
-            }
-          },
-          {
-            id: '2',
-            label: '删除',
-            type: 'danger',
-            icon: 'el-icon-delete',
-            show: true,
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleDelete(row)
-            }
-          }
         ],
         fixed: false,
         width: 230
