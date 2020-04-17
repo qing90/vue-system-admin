@@ -128,7 +128,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  
+
   {
     path: '/managementEfficiency',
     component: 'layout',
@@ -139,6 +139,12 @@ export const asyncRoutes = [
       icon: 'nested'
     },
     children: [
+      {
+        path: 'efficiencyHome',
+        component: 'views/nested/menu1/menu1-3',
+        name: 'EfficiencyHome',
+        meta: { title: 'efficiencyHome' }
+      },
       {
         path: 'shipRepairingManagement',
         component: 'views/efficiency/shipRepairingManagement/index',// '',
@@ -167,12 +173,6 @@ export const asyncRoutes = [
             meta: { title: 'repairLegacy' }
           }
         ]
-      },
-      {
-        path: 'efficiencyHome',
-        component: 'views/nested/menu1/menu1-3',
-        name: 'EfficiencyHome',
-        meta: { title: 'efficiencyHome' }
       },
       {
         path: 'equ-management',
@@ -215,7 +215,43 @@ export const asyncRoutes = [
               title: 'materiel'
             }
           },
-    
+
+        ]
+      },
+      {
+        path: 'equ-maintain',
+        component: 'views/efficiency/equ-maintain/index',
+        name: 'EquMaintain',
+        meta: {
+          title: 'equMaintainName',
+        },
+        children: [
+          {
+            path: 'shipEquInfo',
+            component: 'views/efficiency/equ-maintain/shipEquInfo/index',
+            name: 'ShipEquInfo',
+            meta: {
+              title: 'shipEquInfoName'
+            },
+            children: [
+              {
+                path: 'wrodCard',
+                name: 'WrodCard',
+                component: 'views/efficiency/equ-maintain/shipEquInfo/wrodCard',
+                meta: {
+                  title: 'wrodCardName'
+                }
+              },
+              {
+                path: 'revolveTime',
+                name: 'revolveTime',
+                component: 'views/efficiency/equ-maintain/shipEquInfo/revolveTime',
+                meta: {
+                  title: 'revolveTimeName'
+                }
+              },
+            ]
+          },
         ]
       },
     ],

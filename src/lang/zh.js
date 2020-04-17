@@ -80,7 +80,12 @@ export default {
     inventory: '安全设备清单',
     inspect: '定期检查记录',
     attachment: '安全备件库存',
-    materiel: '安全物料库存'
+    materiel: '安全物料库存',
+    equMaintainName: '设备保养体系',
+    shipEquInfoName: '船舶设备信息',
+    wrodCardName: '工作卡',
+    revolveTimeName: '运转时间'
+
   },
   navbar: {
     dashboard: '首页',
