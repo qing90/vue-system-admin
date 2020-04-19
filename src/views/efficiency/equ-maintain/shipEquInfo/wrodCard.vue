@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       invform: {
-        fleet: '', // 船队
+        fleet: '', // 公司
         ship: '' // 船舶
       },
       tableData: [],

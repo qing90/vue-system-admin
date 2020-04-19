@@ -82,9 +82,7 @@ export default {
     attachment: '安全备件库存',
     materiel: '安全物料库存',
     equMaintainName: '设备保养体系',
-    shipEquInfoName: '船舶设备信息',
-    wrodCardName: '工作卡',
-    revolveTimeName: '运转时间'
+    shipEquInfoName: '船舶设备信息'
 
   },
   navbar: {

@@ -3,7 +3,7 @@
     <el-form label-width="80px">
       <el-row>
         <el-col :span="8">
-          <el-form-item label="船队">
+          <el-form-item label="公司">
             <!-- <el-input v-model="invform.fleet" placeholder="请选择" /> -->
             <el-select v-model="invform.fleet" placeholder="请选择" clearable filterable>
               <el-option
@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       invform: {
-        fleet: '', // 船队
+        fleet: '', // 公司
         ship: '' // 船舶
       },
       tableData: [],

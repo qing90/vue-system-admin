@@ -233,24 +233,6 @@ export const asyncRoutes = [
             meta: {
               title: 'shipEquInfoName'
             },
-            children: [
-              {
-                path: 'wrodCard',
-                name: 'WrodCard',
-                component: 'views/efficiency/equ-maintain/shipEquInfo/wrodCard',
-                meta: {
-                  title: 'wrodCardName'
-                }
-              },
-              {
-                path: 'revolveTime',
-                name: 'revolveTime',
-                component: 'views/efficiency/equ-maintain/shipEquInfo/revolveTime',
-                meta: {
-                  title: 'revolveTimeName'
-                }
-              },
-            ]
           },
         ]
       },
