@@ -35,6 +35,37 @@ const roles = [
   }
 ]
 
+const country = {
+    records:[{
+      shipCode:'MH_001',
+      applyNo:'202004170001',
+      repairType:'1',
+      planRepairDate:'2020-04-17',
+      lastRepairDate:'2020-01-17',
+      proposer:'SYSTEM',
+      applyDate:'2020-04-17'
+    },
+    {
+      shipCode:'MH_002',
+      applyNo:'202004170002',
+      repairType:'2',
+      planRepairDate:'2020-04-17',
+      lastRepairDate:'2020-01-17',
+      proposer:'SYSTEM',
+      applyDate:'2020-04-17'
+    },
+    {
+      shipCode:'MH_003',
+      applyNo:'202004170003',
+      repairType:'3',
+      planRepairDate:'2020-04-17',
+      lastRepairDate:'2020-01-17',
+      proposer:'SYSTEM',
+      applyDate:'2020-04-17'
+    }],
+    totalRecord:"3"
+  } 
+
 export default [
   // mock get all routes form server
   {
@@ -118,5 +149,19 @@ export default [
         status: 'success'
       }
     }
-  }
+  },
+
+    // mock get country form server
+    {
+      url: '/vue-element-admin/getShipRepairpplyList',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: country
+        }
+      }
+    }
+
 ]

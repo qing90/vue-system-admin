@@ -105,34 +105,34 @@ export default {
           width: '50px'
         },
         {
-          prop: 'countryCode',
+          prop: 'shipCode',
           label: '船舶',
           align: 'center'
         },
         {
-          prop: 'countryNameZh',
+          prop: 'projectCode',
           label: '项目编号'
         },
         {
-          prop: 'countryNameEn',
+          prop: 'projectName',
           label: '项目名称'
         },
         {
-          prop: 'index',
+          prop: 'jobDescription',
           label: '工作描述',
           align: 'center'
         },
         {
-          prop: 'countryCode',
+          prop: 'servicingInstallation',
           label: '修理设备',
           align: 'center'
         },
         {
-          prop: 'countryNameZh',
+          prop: 'number',
           label: '数量'
         },
         {
-          prop: 'countryNameEn',
+          prop: 'unit',
           label: '单位'
         }
       ],

@@ -23,7 +23,7 @@ client.execute = function(requestBody = {}) {
 };
 
 client.config({
-  serverUrl: '/quickstart/',
+  serverUrl: '/quickstart',
   projectKey: 'daoservice-quickstart',
   serviceCode: 'QS',
   excelImportConfig: {
