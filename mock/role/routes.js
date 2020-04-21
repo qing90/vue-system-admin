@@ -159,12 +159,30 @@ export const asyncRoutes = [
             meta: { title: 'repairList' }
           },
           {
+            path: 'dockRepairPlan',
+            component: 'views/efficiency/shipRepairingManagement/dockRepairPlan/dockRepairPlan',
+            name: 'repairLegacy',
+            meta: { title: 'dockRepairPlan' }
+          },
+          {
             path: 'shipRepairingApplication',
             component: 'views/efficiency/shipRepairingManagement/shipRepairApply/shipRepairApply',
             name: 'ShipRepairingApplication',
             //redirect: '/nested/menu1/menu1-2/menu1-2-1',
             meta: { title: 'shipRepairingApplication' },
 
+          },
+          {
+            path: 'shipRepairInginquiry',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairInginquiry/shipRepairInginquiry',
+            name: 'repairLegacy',
+            meta: { title: 'shipRepairInginquiry' }
+          },
+          {
+            path: 'repairTracking',
+            component: 'views/efficiency/shipRepairingManagement/repairTracking/repairTracking',
+            name: 'repairLegacy',
+            meta: { title: 'repairTracking' }
           },
           {
             path: 'repairLegacy',

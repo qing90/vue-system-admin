@@ -2,19 +2,11 @@
   <div class="app-container">
     <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>修船管理</el-breadcrumb-item>
-      <el-breadcrumb-item>修船申请</el-breadcrumb-item>
+      <el-breadcrumb-item>修理跟踪</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="filter-container">
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
-          <el-col :md="6" :lg="5">
-            <el-form-item label="公司：" label-width="60px" prop="shipCode">
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
-                <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-
           <el-col :md="6" :lg="5">
             <el-form-item label="船舶：" label-width="60px" prop="shipCode">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
@@ -49,55 +41,19 @@
         <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">新 增</el-button>
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
-      <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="草稿" name="one">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
-
-        <el-tab-pane label="审批中" name="two">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
-
-        <el-tab-pane label="已审批" name="third">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
-      </el-tabs>
+      <table-component
+        ref="tableComponent"
+        :height="tableHeight"
+        :data="tableData"
+        :options="options"
+        :pagination="listQuery"
+        :columns="columns"
+        :operates="operates"
+        @handleRowClick="handleRowClick"
+        @handleSelectionChange="handleSelectionChange"
+        @handleIndexChange="handleIndexChange"
+        @handleSizeChange="handleSizeChange"
+      />
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
@@ -216,7 +172,7 @@ export default {
   data() {
     return {
       dialogConditionVisible: false,
-      activeName: 'one',
+
       conditionList: [{
         name: 'countryCode',
         operator: '',
@@ -397,13 +353,31 @@ export default {
     closeDialog() {
       this.dialogFormVisible = false
     },
-
-    // 切换标签
-    handleClick(tab, event) {
-      // console.log(tab, event);
-      console.log(tab.name);
+    /* 更多条件 */
+    addCondition(item, index) {
+      if (index >= 4) {
+        this.$message({
+          message: '最多5个条件',
+          type: 'warning'
+        })
+        return false
+      }
+      const subObj = {
+        name: '',
+        operator: '',
+        value: ''
+      }
+      this.conditionList.push(subObj)
     },
-
+    removeCondition(item, index) {
+      if (this.conditionList.length === 1) {
+        return this.$message({
+          message: '最后一项不可删除',
+          type: 'warning'
+        })
+      }
+      this.conditionList.splice(index, 1)
+    },
     conditionSearch() {
       const data = {}
       for (const item of this.conditionList) {

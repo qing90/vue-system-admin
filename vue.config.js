@@ -37,11 +37,11 @@ module.exports = {
       errors: true
     },
     proxy: {
-      '/quickstart': {
-        target: 'http://172.16.0.98:81',
+      '/imop': {
+        target: 'http://127.0.0.1:8086',
         changeOrigin: true,
         pathRewrite: {
-          '^/quickstart': ''
+          '^/imop': 'imop'
         }
       }
     },

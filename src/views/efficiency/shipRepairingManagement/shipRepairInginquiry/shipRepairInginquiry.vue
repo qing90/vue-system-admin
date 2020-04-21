@@ -2,21 +2,13 @@
   <div class="app-container">
     <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>修船管理</el-breadcrumb-item>
-      <el-breadcrumb-item>修船申请</el-breadcrumb-item>
+      <el-breadcrumb-item>修理询价</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="filter-container">
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
           <el-col :md="6" :lg="5">
             <el-form-item label="公司：" label-width="60px" prop="shipCode">
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
-                <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :md="6" :lg="5">
-            <el-form-item label="船舶：" label-width="60px" prop="shipCode">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
               </el-select>
@@ -50,7 +42,7 @@
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="草稿" name="one">
+        <el-tab-pane label="待询价" name="one">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -66,7 +58,7 @@
           />
         </el-tab-pane>
 
-        <el-tab-pane label="审批中" name="two">
+        <el-tab-pane label="待询价" name="two">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -82,7 +74,23 @@
           />
         </el-tab-pane>
 
-        <el-tab-pane label="已审批" name="third">
+        <el-tab-pane label="审批中" name="third">
+          <table-component
+            ref="tableComponent"
+            :height="tableHeight"
+            :data="tableData"
+            :options="options"
+            :pagination="listQuery"
+            :columns="columns"
+            :operates="operates"
+            @handleRowClick="handleRowClick"
+            @handleSelectionChange="handleSelectionChange"
+            @handleIndexChange="handleIndexChange"
+            @handleSizeChange="handleSizeChange"
+          />
+        </el-tab-pane>
+
+        <el-tab-pane label="已完成" name="four">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -98,6 +106,7 @@
           />
         </el-tab-pane>
       </el-tabs>
+
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
@@ -299,7 +308,7 @@ export default {
         list: [
           {
             id: '1',
-            label: '编辑',
+            label: '详细',
             type: 'primary',
             show: true,
             icon: 'el-icon-edit-outline',
@@ -307,7 +316,7 @@ export default {
             disabled: false,
             btnType: 'icon',
             method: (index, row) => {
-              this.handleUpdate(row);
+              this.inquiryDetails(row);
             }
           },
           {
@@ -404,30 +413,6 @@ export default {
       console.log(tab.name);
     },
 
-    conditionSearch() {
-      const data = {}
-      for (const item of this.conditionList) {
-        if (item.value) {
-          data[item.name] = item.value
-        }
-      }
-      data.page = 1
-      data.limit = this.listQuery.limit
-      this.dialogConditionVisible = false
-      queryCountry(data).then(res => {
-        if (res.success) {
-          this.tableData = res.data.records
-          this.listQuery.total = parseInt(res.data.totalRecord)
-        } else {
-          this.$message({
-            message: '搜索失败',
-            type: 'error'
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    },
     /* 新增 */
     handleAdd() {
       this.resetTemp()
@@ -437,6 +422,7 @@ export default {
         this.$refs['dataForm'].clearValidate()
       })
     },
+
     resetTemp() {
       this.temp = {
         id: undefined,
@@ -576,7 +562,7 @@ export default {
       this.listQuery.page = page
       this.searchFn()
     },
-    handleUpdate(row) {
+    inquiryDetails(row) {
       this.temp = Object.assign({}, row);
       this.temp.timestamp = new Date(this.temp.timestamp);
       this.dialogStatus = 'update';
