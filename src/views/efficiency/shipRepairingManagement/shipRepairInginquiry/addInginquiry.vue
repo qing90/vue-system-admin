@@ -2,126 +2,80 @@
   <div class="app-container">
     <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>修船管理</el-breadcrumb-item>
-      <el-breadcrumb-item>修船申请</el-breadcrumb-item>
+      <el-breadcrumb-item>修船询价</el-breadcrumb-item>
+      <el-breadcrumb-item>询价提交</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="filter-container">
-      <el-form ref="filter" label-position="left" :model="listQuery">
-        <el-row :gutter="10">
-          <el-col :md="6" :lg="5">
-            <el-form-item label="公司：" label-width="90px" prop="shipCode">
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
-                <el-option
-                  v-for="(item,index) in shipTypeList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
 
-          <el-col :md="6" :lg="5">
-            <el-form-item label="船舶：" label-width="90px" prop="shipCode" style="margin-left: 10px;">
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
-                <el-option
-                  v-for="(item,index) in shipTypeList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-
-        <el-row :gutter="10">
-          <el-col :md="6" :lg="5">
-            <el-form-item label="修理单号：" label-width="90px" prop="repairNo">
-              <el-input v-model="listQuery.repairNo" placeholder="请输入内容" />
-            </el-form-item>
-          </el-col>
-
-          <el-col :md="6" :lg="5">
-            <el-form-item
-              label="修理类别："
-              label-width="90px"
-              prop="shipType"
-              style="margin-left: 10px;"
-            >
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
-                <el-option
-                  v-for="(item,index) in shipTypeList"
-                  :key="index"
-                  :label="item.name"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-
-          <el-col :md="24" :lg="6">
-            <el-button type="primary" @click="handleSearch">查 询</el-button>
-            <el-button
-              type="default"
-              icon="el-icon-refresh-right"
-              style="margin-left: 20px;"
-              @click="resetFn"
-            >重 置</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
     <div class="table-container">
-      <div class="opt">
-        <el-button
-          plain
-          type="plain"
-          icon="el-icon-plus"
-          class="btn-plain-primary"
-          @click="handleAdd"
-        >新 增</el-button>
-        <el-button
-          plain
-          type="default"
-          icon="el-icon-download"
-          class="btn-plain-success"
-          @click="handleExport"
-        >导 出</el-button>
-      </div>
       <el-tabs v-model="activeName" @tab-click="handleClick">
-        <el-tab-pane label="草稿" name="one">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
+        <el-tab-pane label="修理项目" name="one">
+          <div class="router-body">
+            <div class="left-side">
+              <el-table
+                ref="table"
+                :data="repairWorkList"
+                tooltip-effect="dark"
+                border
+                stripe
+                style="width: 100%"
+              >
+                <el-table-column prop="engineering" label="修理工程" />
+              </el-table>
+            </div>
+
+            <div class="right-side">
+              <el-table
+                ref="table"
+                :data="projectData"
+                tooltip-effect="dark"
+                border
+                stripe
+                style="width: 100%"
+                @selection-change="selectRow"
+              >
+                <el-table-column type="selection" width="45" align="center" />
+                <el-table-column label="序号" type="index" width="60" align="center" />
+                <el-table-column label="项目编号" align="center">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.remark" class="remark" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="工作描述">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.remark" type="textarea" class="remark" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="修理设备">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.require_des" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="数量单位">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.require_des" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="材料或者备件需求描述">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.require_des" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="...">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.require_des" />
+                  </template>
+                </el-table-column>
+                <el-table-column label="操作">
+                  <template slot-scope="scope">
+                    <el-input v-model="scope.row.require_des" />
+                  </template>
+                </el-table-column>
+              </el-table>
+            </div>
+          </div>
         </el-tab-pane>
 
-        <el-tab-pane label="审批中" name="two">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
-
-        <el-tab-pane label="已审批" name="third">
+        <el-tab-pane label="统计" name="two">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -138,137 +92,48 @@
         </el-tab-pane>
       </el-tabs>
     </div>
-    <!-- 更新新增 -->
-    <el-dialog
-      :visible.sync="dialogFormVisible"
-      width="80%"
-      :show-close="false"
-      class="form-dialog"
-    >
-      <el-form
-        ref="dataForm"
-        :rules="rules"
-        :model="temp"
-        label-position="left"
-        class="dialog-form"
-      >
-        <div class="form-title">
-          <span>修船申请信息</span>
-        </div>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="船舶名称：" label-width="120px" prop="shipCode">
-              <el-select v-model="temp.shipCode" placeholder="请选择">
-                <el-option
-                  v-for="(option,sindex) in validFlagList"
-                  :key="sindex"
-                  :value="option.value"
-                  :label="option.label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="业务类别:" label-width="150px" prop="repairType">
-              <el-select v-model="temp.repairType" placeholder="请选择">
-                <el-option
-                  v-for="(option,sindex) in validFlagList"
-                  :key="sindex"
-                  :value="option.value"
-                  :label="option.label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="计划抵厂日期:" label-width="120px" prop=".planRepairDate">
-              <el-date-picker v-model="temp.planRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="上次修理开始日期:" label-width="150px" prop="lastRepairDate">
-              <el-date-picker v-model="temp.lastRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="航修(电器类):" label-width="100px" prop="countryNameEn">
-              <el-radio v-model="radio" label="1">是</el-radio>
-              <el-radio v-model="radio" label="2">否</el-radio>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="卸货港:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="中间检验最晚日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="特检最晚日期" label-width="100px" prop="countryNameEn">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="申请人:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="状态" label-width="100px" prop="countryNameEn">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option
-                  v-for="(option,sindex) in validFlagList"
-                  :key="sindex"
-                  :value="option.value"
-                  :label="option.label"
-                />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="20">
-            <el-form-item label="备注:" label-width="120px" prop="countryNameEn">
-              <el-input
-                v-model="temp.countryNameEn"
-                type="textarea"
-                :rows="3"
-                style="width: 70%;"
-                placeholder="请输入"
-              />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
 
-      <div class="form-dialog-header">
-        <div class="header-opt">
-          <el-button
-            plain
-            type="default"
-            class="btn-plain-success"
-            icon="el-icon-check"
-            size="mini"
-            @click="chooseAddMethod"
-          >保 存</el-button>
-          <el-button plain type="default" icon="el-icon-close" size="mini" @click="closeDialog">取消</el-button>
-        </div>
+    <br>
+    <div class="end_body">
+      <div class="end_body_left">关联预算进度</div>
+
+      <div class="end_body_center">
+        <el-row>
+          <el-span>请选择供应商并提交比较结果</el-span>
+        </el-row>
+        <el-row>
+          <span>
+            <el-radio v-model="radio" label="1">供应商1</el-radio>
+          </span>
+        </el-row>
+        <el-row>
+          <span>
+            <el-radio v-model="radio" label="2">供应商2</el-radio>
+          </span>
+        </el-row>
+        <el-row>
+          <span>
+            <el-radio v-model="radio" label="3">供应商3</el-radio>
+          </span>
+        </el-row>
       </div>
-    </el-dialog>
+
+      <div class="end_body_right">
+        <span>提交意见</span>
+        <el-input type="textarea" class="remark" />
+      </div>
+    </div>
+
+    <br>
+    <div class="action_buttons">
+      <el-row>
+        <el-col span:24>
+          <el-button class="export" type="primary" @click="addRow()">导出比价</el-button>
+          <el-button class="save" type="primary" @click="save()">保存</el-button>
+          <el-button class="submit" type="primary" @click="submit()">提交</el-button>
+        </el-col>
+      </el-row>
+    </div>
   </div>
 </template>
 <script>
@@ -296,52 +161,29 @@ export default {
         }
       ],
       radio: '1',
-      nameList: [
+      repairWorkList: [
         {
-          label: '国家/地区代码',
-          value: 'countryCode'
+          engineering: '修理工程1'
         },
         {
-          label: '国家/地区中文名',
-          value: 'countryNameZh'
+          engineering: '修理工程2'
         },
         {
-          label: '国家/地区英文名',
-          value: 'countryNameEn'
+          engineering: '修理工程3'
         },
         {
-          label: '是否有效',
-          value: 'validFlag'
+          engineering: '修理工程4'
         },
         {
-          label: '创建人',
-          value: 'creator'
+          engineering: '修理工程5'
         }
-      ],
-      shipTypeList: [
-        { name: '生效', value: 1 },
-        { name: '失效', value: 0 }
-      ],
-      operatorsList: [
-        '=',
-        '!=',
-        '>',
-        '>=',
-        '<',
-        '<=',
-        '包含',
-        '介于',
-        '不包含',
-        '从属于'
-      ],
-      validList: [
-        { name: '生效', value: 1 },
-        { name: '失效', value: 0 }
       ],
       validFlagList: [
         { label: '生效', value: true },
         { label: '失效', value: false }
       ],
+      projectData: [], // 修理项目数据
+      rowNum: 1,
       tableData: [],
       tableHeight: '', // 高度
       // table 的参数
@@ -353,6 +195,7 @@ export default {
         mutiSelect: true, // 是否支持列表项选中功能
         pagination: true
       },
+
       // 需要展示的列
       columns: [
         {
@@ -454,18 +297,6 @@ export default {
         // countryCode: [{
         //   required: true,
         //   message: '不能为空'
-        // }],
-        // countryNameZh: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameEn: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // validFlag: [{
-        //   required: true,
-        //   message: '请选择状态'
         // }]
       }
     };
@@ -505,6 +336,7 @@ export default {
 
     // 切换标签
     handleClick(tab, event) {
+      // console.log(tab, event);
       console.log(tab.name);
     },
 
@@ -536,11 +368,11 @@ export default {
     },
     /* 新增 */
     handleAdd() {
-      this.$router.push({
-        path: '/addShipRepairApply'
-        // query: {
-        //   showType: "add"
-        // }
+      this.resetTemp();
+      this.dialogStatus = 'create';
+      this.dialogFormVisible = true;
+      this.$nextTick(() => {
+        this.$refs['dataForm'].clearValidate();
       });
     },
     resetTemp() {
@@ -656,24 +488,12 @@ export default {
           console.log(err);
         });
     },
-    /* 更多条件 */
-    moreFn() {
-      this.dialogConditionVisible = true;
-    },
+
     /* 重置 */
     resetFn() {
       this.$refs.filter.resetFields();
     },
-    /* 导出 */
-    handleExport() {
-      const data = {};
-      for (const key in this.listQuery) {
-        if (this.listQuery[key] !== '' && key !== 'total') {
-          data[key] = this.listQuery[key];
-        }
-      }
-      exportCountry(data);
-    },
+
     handleRowClick() {},
     handleSelectionChange() {},
     handleSizeChange(size) {
@@ -704,11 +524,92 @@ export default {
           duration: 2000
         });
       });
+    },
+
+    // 获取表格选中时的数据
+    selectRow(val) {
+      this.selectlistRow = val;
+    },
+    // 增加行
+    addRow() {
+      var list = {
+        rowNum: this.rowNum,
+        post_id: [],
+        require_des: '',
+        remark: ''
+      };
+      this.projectData.unshift(list);
+      this.rowNum += 1;
+    },
+    // 删除方法
+    // 删除选中行
+    delData() {
+      for (let i = 0; i < this.selectlistRow.length; i++) {
+        const val = this.selectlistRow;
+        // 获取选中行的索引的方法
+        // 遍历表格中projectData数据和选中的val数据，比较它们的rowNum,相等则输出选中行的索引
+        // rowNum的作用主要是为了让每一行有一个唯一的数据，方便比较，可以根据个人的开发需求从后台传入特定的数据
+        val.forEach((val, index) => {
+          this.projectData.forEach((v, i) => {
+            if (val.rowNum === v.rowNum) {
+              // i 为选中的索引
+              this.projectData.splice(i, 1);
+            }
+          });
+        });
+      }
+      // 删除完数据之后清除勾选框
+      this.$refs.table.clearSelection();
     }
   }
 };
 </script>
 <style lang="scss" scoped>
+.router-body {
+  overflow: hidden;
+  .left-side {
+    width: 20%;
+    float: left;
+  }
+  .right-side {
+    width: 75%;
+    float: left;
+  }
+}
+
+.end_body {
+  overflow: hidden;
+  .end_body_left {
+    width: 30%;
+    float: left;
+  }
+  .end_body_center {
+    width: 30%;
+    float: left;
+  }
+  .end_body_right {
+    width: 40%;
+    float: left;
+  }
+}
+
+.action_buttons {
+  .submit {
+    float: right;
+    margin-right: 10px;
+  }
+
+  .save {
+    float: right;
+    margin-right: 10px;
+  }
+
+  .export {
+    float: right;
+    margin-right: 10px;
+  }
+}
+
 .app-container {
   .breadcrumb {
     margin-bottom: 20px;

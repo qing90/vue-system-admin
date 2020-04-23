@@ -170,7 +170,14 @@ export const asyncRoutes = [
             name: 'ShipRepairingApplication',
             //redirect: '/nested/menu1/menu1-2/menu1-2-1',
             meta: { title: 'shipRepairingApplication' },
-
+          },
+          {
+            path: '/addShipRepairApply',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairApply/addShipRepairApply',
+            name: 'addShipRepairApply',
+            hidden:true,
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1',
+            meta: { title: 'addShipRepairApply' }
           },
           {
             path: 'shipRepairInginquiry',
@@ -179,11 +186,36 @@ export const asyncRoutes = [
             meta: { title: 'shipRepairInginquiry' }
           },
           {
+            path: '/inginquiryDetail',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairInginquiry/inginquiryDetail',
+            name: 'inginquiryDetail',
+            hidden:true,
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1',
+            meta: { title: 'inginquiryDetail' }
+          },
+          {
+            path: '/addInginquiry',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairInginquiry/addInginquiry',
+            name: 'addInginquiry',
+            hidden:true,
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1', trackingDetail
+            meta: { title: 'addInginquiry' }
+          },
+          {
             path: 'repairTracking',
             component: 'views/efficiency/shipRepairingManagement/repairTracking/repairTracking',
             name: 'repairLegacy',
             meta: { title: 'repairTracking' }
           },
+          {
+            path: '/trackingDetail',
+            component: 'views/efficiency/shipRepairingManagement/repairTracking/trackingDetail',
+            name: 'trackingDetail',
+            hidden:true,
+            //redirect: '/nested/menu1/menu1-2/menu1-2-1', trackingDetail
+            meta: { title: 'trackingDetail' }
+          },
+
           {
             path: 'repairLegacy',
             component: 'views/efficiency/shipRepairingManagement/repairLegacy/repairLegacy',

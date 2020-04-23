@@ -38,7 +38,6 @@
     </div>
     <div class="table-container">
       <div class="opt">
-        <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">新 增</el-button>
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
       <table-component
@@ -55,116 +54,12 @@
         @handleSizeChange="handleSizeChange"
       />
     </div>
-    <!-- 更新新增 -->
-    <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
-      <el-form
-        ref="dataForm"
-        :rules="rules"
-        :model="temp"
-        label-position="left"
-        class="dialog-form"
-      >
-        <div class="form-title">
-          <span>修船申请信息</span>
-        </div>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="船舶名称：" label-width="120px" prop="shipCode">
-              <el-select v-model="temp.shipCode" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="业务类别:" label-width="150px" prop="repairType">
-              <el-select v-model="temp.repairType" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="计划抵厂日期:" label-width="120px" prop=".planRepairDate">
-              <el-date-picker v-model="temp.planRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="上次修理开始日期:" label-width="150px" prop="lastRepairDate">
-              <el-date-picker v-model="temp.lastRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="航修(电器类):" label-width="100px" prop="countryNameEn">
-              <el-radio v-model="radio" label="1">是</el-radio>
-              <el-radio v-model="radio" label="2">否</el-radio>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="卸货港:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="中间检验最晚日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="特检最晚日期" label-width="100px" prop="countryNameEn">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="申请人:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="状态" label-width="100px" prop="countryNameEn">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="20">
-            <el-form-item label="备注:" label-width="120px" prop="countryNameEn">
-              <el-input
-                v-model="temp.countryNameEn"
-                type="textarea"
-                :rows="3"
-                style="width: 70%;"
-                placeholder="请输入"
-              />
-            </el-form-item>
-          </el-col>
 
-        </el-row>
-      </el-form>
-
-      <div class="form-dialog-header">
-        <div class="header-opt">
-          <el-button plain type="default" class="btn-plain-success" icon="el-icon-check" size="mini" @click="chooseAddMethod">保 存</el-button>
-          <el-button plain type="default" icon="el-icon-close" size="mini" @click="closeDialog">取消</el-button>
-        </div>
-      </div>
-    </el-dialog>
   </div>
 </template>
 <script>
 import tableComponent from '@/components/TableComponent'
-import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country'
+import { queryCountry, exportCountry } from '@/api/country'
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList'
 import { parseDsErrorMessage } from '@/utils/responseUtil'
 export default {
@@ -220,30 +115,30 @@ export default {
         },
         {
           prop: 'shipCode',
-          label: '船舶',
+          label: '修理单号',
           align: 'center'
         },
         {
           prop: 'applyNo',
-          label: '申请单号'
-        },
-        {
-          prop: 'repairType',
           label: '修理类别'
         },
         {
+          prop: 'repairType',
+          label: '维修厂商'
+        },
+        {
           prop: 'planRepairDate',
-          label: '计划开始日期',
+          label: '修理开始日期',
           align: 'center'
         },
         {
           prop: 'lastRepairDate',
-          label: '上次修理日期',
+          label: '修理结束日期',
           align: 'center'
         },
         {
           prop: 'proposer',
-          label: '申请人'
+          label: '修理天数'
         },
         {
           prop: 'applyDate',
@@ -255,7 +150,7 @@ export default {
         list: [
           {
             id: '1',
-            label: '编辑',
+            label: '详情跟踪',
             type: 'primary',
             show: true,
             icon: 'el-icon-edit-outline',
@@ -263,20 +158,7 @@ export default {
             disabled: false,
             btnType: 'icon',
             method: (index, row) => {
-              this.handleUpdate(row);
-            }
-          },
-          {
-            id: '2',
-            label: '删除',
-            type: 'danger',
-            icon: 'el-icon-delete',
-            show: true,
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleDelete(row)
+              this.trackingDetail(row);
             }
           }
         ],
@@ -294,10 +176,6 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
       temp: {
         shipCode: '',
         applyNo: '',
@@ -306,24 +184,6 @@ export default {
         lastRepairDate: '',
         proposer: '',
         applyDate: ''
-      },
-      rules: {
-        // countryCode: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameZh: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameEn: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // validFlag: [{
-        //   required: true,
-        //   message: '请选择状态'
-        // }]
       }
     }
   },
@@ -402,95 +262,7 @@ export default {
         console.log(err)
       })
     },
-    /* 新增 */
-    handleAdd() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        countryCode: '',
-        countryNameZh: '',
-        countryNameEn: '',
-        timestamp: new Date(),
-        validFlag: true
-      };
-    },
-    chooseAddMethod() {
-      if (this.dialogStatus === 'create') {
-        return this.createCountry()
-      } else {
-        return this.updateCountry()
-      }
-    },
-    newMethod() {
-      if (this.dialogStatus === 'create') {
-        return
-      }
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
-    /* 新增 */
-    createCountry() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          console.log(this.temp);
-          this.temp.creator = 'admin';
-          this.temp.createTime = new Date();
-          addCountry(this.temp).then(response => this.handleAddResponse(response));
-        }
-      })
-    },
-    handleAddResponse(response) {
-      if (response.success) {
-        if (response.success) {
-          this.searchFn()
-          this.dialogFormVisible = false
-          this.$notify({
-            title: '成功',
-            message: '创建成功',
-            type: 'success',
-            duration: 2000
-          });
-        }
-      } else {
-        parseDsErrorMessage(response)
-      }
-    },
-    /* 更新 */
-    updateCountry() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          this.temp.creator = 'admin';
-          const tempData = Object.assign({}, this.temp);
-          console.log(this.temp);
-          updateCountry(tempData).then(response => this.handleUpdateResponse(response));
-        }
-      });
-    },
-    handleUpdateResponse(response) {
-      if (response.success) {
-        this.searchFn();
-        this.dialogFormVisible = false;
-        this.$notify({
-          title: '成功',
-          message: '更新成功',
-          type: 'success',
-          duration: 2000
-        });
-      } else {
-        console.log('error');
-        parseDsErrorMessage(response);
-      }
-    },
+
     // 查询方法
     handleSearch() {
       this.listQuery.page = 1
@@ -517,10 +289,6 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-    },
-    /* 更多条件 */
-    moreFn() {
-      this.dialogConditionVisible = true
     },
     /* 重置 */
     resetFn() {
@@ -560,17 +328,15 @@ export default {
       });
     },
 
-    handleDelete(row) {
-      deleteCountry({ id: row.id }).then(() => {
-        this.searchFn();
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
-        });
+    trackingDetail(row) {
+      this.$router.push({
+        path: '/trackingDetail'
+        // query: {
+        //   showType: "add"
+        // }
       });
     }
+
   }
 }
 </script>
@@ -603,63 +369,6 @@ export default {
     margin-right: 4px;
     &:hover{
       color: #999 ;
-    }
-  }
-}
-.form-dialog{
-
-  .form-dialog-header{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    overflow: hidden;
-    .header-title{
-      font-size: 16px;
-      color: #666;
-      float: left;
-    }
-    .header-opt{
-       float: right;
-    }
-  }
-  .dialog-form{
-    background: #f5faff;
-    padding: 20px 20px 0 20px;
-    .el-form-item{
-      /deep/.el-form-item__label{
-        padding-right: 0;
-      }
-    }
-    .form-title{
-
-      position: relative;
-      padding: 0 20px 10px;
-      margin-bottom: 20px;
-      &::before{
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: #ddd;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-      }
-      span{
-        font-size: 14px;
-        color:#999;
-        position: relative;
-        &::before{
-          content: '';
-          width: 50%;
-          position: absolute;
-          height: 2px;
-          bottom: -10px;
-          background: #61b0ff;
-          transform: translateX(50%);
-        }
-      }
     }
   }
 }

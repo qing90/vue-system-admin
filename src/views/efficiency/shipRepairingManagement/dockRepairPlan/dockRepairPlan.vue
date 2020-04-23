@@ -52,101 +52,21 @@
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
-      <el-form
-        ref="dataForm"
-        :rules="rules"
-        :model="temp"
-        label-position="left"
-        class="dialog-form"
-      >
-        <div class="form-title">
-          <span>修船申请信息</span>
-        </div>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="船舶名称：" label-width="120px" prop="shipCode">
-              <el-select v-model="temp.shipCode" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="业务类别:" label-width="150px" prop="repairType">
-              <el-select v-model="temp.repairType" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="计划抵厂日期:" label-width="120px" prop=".planRepairDate">
-              <el-date-picker v-model="temp.planRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="上次修理开始日期:" label-width="150px" prop="lastRepairDate">
-              <el-date-picker v-model="temp.lastRepairDate" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="航修(电器类):" label-width="100px" prop="countryNameEn">
-              <el-radio v-model="radio" label="1">是</el-radio>
-              <el-radio v-model="radio" label="2">否</el-radio>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="卸货港:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="中间检验最晚日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="特检最晚日期" label-width="100px" prop="countryNameEn">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="7">
-            <el-form-item label="申请人:" label-width="120px" prop="countryNameEn">
-              <el-input v-model="temp.countryNameEn" placeholder="请输入" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="申请日期:" label-width="150px" prop="validFlag">
-              <el-date-picker v-model="temp.countryNameE" type="date" placeholder="选择日期" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="状态" label-width="100px" prop="countryNameEn">
-              <el-select v-model="temp.validFlag" placeholder="请选择">
-                <el-option v-for="(option,sindex) in validFlagList" :key="sindex" :value="option.value" :label="option.label" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="10">
-          <el-col :span="20">
-            <el-form-item label="备注:" label-width="120px" prop="countryNameEn">
-              <el-input
-                v-model="temp.countryNameEn"
-                type="textarea"
-                :rows="3"
-                style="width: 70%;"
-                placeholder="请输入"
-              />
-            </el-form-item>
-          </el-col>
-
-        </el-row>
-      </el-form>
+      <div class="form-title">
+        <span>修船申请信息</span>
+      </div>
+      <div>
+        <el-table :data="tableData" style="width: 100%" height="250">
+          <el-table-column fixed prop="year" label="年份" width="150" />
+          <el-table-column fixed prop="date" label="SS/DD" width="150" />
+          <el-table-column fixed prop="date" label="船检到期日期" width="150" />
+          <el-table-column fixed prop="date" label="计划日期" width="150" />
+          <el-table-column fixed prop="date" label="计划修理天数" width="150" />
+          <el-table-column fixed prop="date" label="实际修理日期" width="150" />
+          <el-table-column fixed prop="date" label="实际修理天数" width="150" />
+          <el-table-column fixed prop="date" label="以修理完成" width="150" />
+        </el-table>
+      </div>
 
       <div class="form-dialog-header">
         <div class="header-opt">

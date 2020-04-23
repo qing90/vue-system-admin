@@ -415,12 +415,9 @@ export default {
 
     /* 新增 */
     handleAdd() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.$router.push({
+        path: '/addInginquiry'
+      });
     },
 
     resetTemp() {
@@ -563,12 +560,8 @@ export default {
       this.searchFn()
     },
     inquiryDetails(row) {
-      this.temp = Object.assign({}, row);
-      this.temp.timestamp = new Date(this.temp.timestamp);
-      this.dialogStatus = 'update';
-      this.dialogFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate();
+      this.$router.push({
+        path: '/inginquiryDetail'
       });
     },
 
