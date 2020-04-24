@@ -120,11 +120,285 @@
             </el-form>
           </div>
 
-          <div calss="jbxx_2">222</div>
+          <div id="jbxx-2" calss="jbxx_2">
+            <el-form ref="dataForm" label-position="left">
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="21" style=" margin:5px; ">
+                  <el-form-item label="船厂名称：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
 
-          <div calss="jbxx_3">333</div>
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="联系人1：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="电话号码：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="邮箱：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
 
-          <div calss="jbxx_4">444</div>
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="联系人2：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="电话号码：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="邮箱：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
+
+          <div id="jbxx-3" calss="jbxx_3">
+            <el-form ref="dataForm" label-position="left">
+              <el-row :gutter="10" style=" margin-left:10px; margin:5px;">
+                <el-col :span="7">
+                  <el-form-item label="租家换船日期：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="计划抵厂日期：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="锚泊时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="计划进坞日期：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="计划出坞日期：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="计划完工日期：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="进坞时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="出坞时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="完工时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="计划工作天数(码头)：" label-width="150px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="计划工作天数(坞内)：" label-width="150px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="总计划修理天数：" label-width="150px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="7">
+                  <el-form-item label="工作天数(码头)：" label-width="150px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="工作天数(坞内)：" label-width="150px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="7">
+                  <el-form-item label="总修理天数：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+          </div>
+
+          <div id="jbxx-4" calss="jbxx_4">
+            <el-form ref="dataForm" label-position="left">
+              <el-row :gutter="10" style=" margin-left:10px; margin:5px;">
+                <el-col :span="6">
+                  <el-form-item label="航次：" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="航次开始时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="锚航次结束时间：" label-width="120px" prop="shipCode">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="6">
+                  <el-form-item label="起始HSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="HSFO供应量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="结束HSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="HSFO消耗量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="6">
+                  <el-form-item label="起始LSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="LSFO供应量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="结束LSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="LSFO消耗量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="6">
+                  <el-form-item label="起始MGO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="MGO供应量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="结束MGO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="MGO消耗量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="6">
+                  <el-form-item label="起始MDO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="MDO供应量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="结束MDO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="MDO消耗量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+              <el-row :gutter="10" style=" margin-left:10px; ">
+                <el-col :span="6">
+                  <el-form-item label="起始HSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="HSFO供应量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="结束HSFO存量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="HSFO消耗量(MT)" label-width="150px" prop="shipCode" text-align="justify">
+                    <el-input v-model="temp.countryNameEn" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+
+            </el-form>
+          </div>
         </el-tab-pane>
 
         <el-tab-pane label="船厂计划/每日报告" name="ccjh">
@@ -666,31 +940,27 @@ export default {
     text-align: right;
     margin-bottom: 10px;
   }
+}
 
-  .jbxx_1 {
-    margin: 10px;
-  }
+#jbxx-2 {
+  margin: 10px;
+  width: 95%;
+  height: 200px;
+  border: 1px solid #000;
+}
 
-  .jbxx_2 {
-    margin: 10px;
-    width: 95%;
-    height: 300px;
-    border: 1px solid #000;
-  }
+#jbxx-3 {
+  margin: 10px;
+  width: 95%;
+  height: 300px;
+  border: 1px solid #000;
+}
 
-  .jbxx_3 {
-    margin: 10px;
-    width: 95%;
-    height: 300px;
-    border: 1px solid #000;
-  }
-
-  .jbxx_4 {
-    margin: 10px;
-    width: 95%;
-    height: 300px;
-    border: 1px solid #000;
-  }
+#jbxx-4 {
+  margin: 10px;
+  width: 95%;
+  height: 420px;
+  border: 1px solid #000;
 }
 
 .opt-panel {
