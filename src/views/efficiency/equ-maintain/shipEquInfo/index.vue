@@ -895,7 +895,7 @@ export default {
     },
     // 去申请单列表
     goToAppList() {
-      this.$router.push({ path: "/appList" });
+      this.$router.push({ path: "applyList" });
     },
     // 更多弹窗
     proInfoShow(num) {

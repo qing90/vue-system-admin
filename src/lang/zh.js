@@ -83,7 +83,8 @@ export default {
     attachment: '安全备件库存',
     materiel: '安全物料库存',
     equMaintainName: '设备保养体系',
-    shipEquInfoName: '船舶设备信息'
+    shipEquInfoName: '船舶设备信息',
+    applyListName:'申请列表',
 
   },
   navbar: {

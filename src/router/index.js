@@ -53,7 +53,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/efficiency/equ-maintain/shipEquInfo'),
+        component: () => import('@/views/dashboard'),
         name: 'Dashboard',
         meta: { title: 'dashboard', icon: 'dashboard', affix: true }
       }
