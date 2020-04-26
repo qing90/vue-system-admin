@@ -284,6 +284,15 @@ export const asyncRoutes = [
               title: 'shipEquInfoName'
             },
           },
+          {
+            path: 'applyList',
+            component: 'views/efficiency/equ-maintain/applyList/applyList',
+            name: 'ApplyList',
+            hidden:true,
+            meta: {
+              title: 'applyListName'
+            },
+          },
         ]
       },
     ],
