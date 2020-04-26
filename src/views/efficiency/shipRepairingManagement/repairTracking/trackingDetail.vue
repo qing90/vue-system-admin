@@ -271,12 +271,12 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item label="航次开始时间：" label-width="120px" prop="shipCode">
+                  <el-form-item label="航次开始时间：" label-width="150px" prop="shipCode">
                     <el-input v-model="temp.countryNameEn" />
                   </el-form-item>
                 </el-col>
                 <el-col :span="6">
-                  <el-form-item label="锚航次结束时间：" label-width="120px" prop="shipCode">
+                  <el-form-item label="锚航次结束时间：" label-width="150px" prop="shipCode">
                     <el-input v-model="temp.countryNameEn" />
                   </el-form-item>
                 </el-col>
