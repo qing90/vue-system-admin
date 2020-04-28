@@ -7,7 +7,6 @@
     <div class="filter-container">
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
-
           <el-col :md="6" :lg="5">
             <el-form-item label="公司：" label-width="90px" prop="shipType" style="margin-left: 5;">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
@@ -36,24 +35,71 @@
         <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">新 增</el-button>
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
-      <table-component
-        ref="tableComponent"
-        :height="tableHeight"
-        :data="tableData"
-        :options="options"
-        :pagination="listQuery"
-        :columns="columns"
-        :operates="operates"
-        @handleRowClick="handleRowClick"
-        @handleSelectionChange="handleSelectionChange"
-        @handleIndexChange="handleIndexChange"
-        @handleSizeChange="handleSizeChange"
+      <el-table :data="dockRepairPlan" style="width: 100%">
+        <el-table-column type="index" label="No." width="50px;" />
+        <el-table-column prop="date" label="船舶" width="150px;" />
+        <el-table-column prop="date" label="操作" width="80px;" />
+        <el-table-column label="2020" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+        <el-table-column label="2021" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+        <el-table-column label="2022" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        :total="listQuery.total"
+        :page-sizes="[10, 20, 50]"
+        :page-size.sync="listQuery.limit"
+        :current-page.sync="listQuery.page"
+        layout="total, sizes, prev, pager, next, jumper"
+        prev-text="上一页"
+        next-text="下一页"
+        style="margin-top: 15px;text-align: center"
+        @size-change="handleSizeChange"
+        @current-change="handleIndexChange"
       />
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
       <div class="form-title">
-        <span>修船申请信息</span>
+        <span>Pacifc Success</span>
       </div>
       <div>
         <el-table :data="tableData" style="width: 100%" height="250">
@@ -78,12 +124,12 @@
   </div>
 </template>
 <script>
-import tableComponent from '@/components/TableComponent'
-import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country'
+
+import { queryCountry, addCountry, deleteCountry, exportCountry } from '@/api/country'
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList'
 import { parseDsErrorMessage } from '@/utils/responseUtil'
 export default {
-  components: { tableComponent },
+
   data() {
     return {
       dialogConditionVisible: false,
@@ -94,28 +140,11 @@ export default {
         value: ''
       }],
       radio: '1',
-      nameList: [{
-        label: '国家/地区代码',
-        value: 'countryCode'
-      }, {
-        label: '国家/地区中文名',
-        value: 'countryNameZh'
-      }, {
-        label: '国家/地区英文名',
-        value: 'countryNameEn'
-      }, {
-        label: '是否有效',
-        value: 'validFlag'
-      }, {
-        label: '创建人',
-        value: 'creator'
-      }],
       shipTypeList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
-      operatorsList: ['=', '!=', '>', '>=', '<', '<=', '包含', '介于', '不包含', '从属于'],
-      validList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
-      validFlagList: [{ label: '生效', value: true }, { label: '失效', value: false }],
       tableData: [],
+      dockRepairPlan: [],
       tableHeight: '', // 高度
+
       // table 的参数
       options: {
         border: true,
@@ -170,7 +199,7 @@ export default {
         list: [
           {
             id: '1',
-            label: '编辑',
+            label: '详情',
             type: 'primary',
             show: true,
             icon: 'el-icon-edit-outline',
@@ -179,19 +208,6 @@ export default {
             btnType: 'icon',
             method: (index, row) => {
               this.handleUpdate(row);
-            }
-          },
-          {
-            id: '2',
-            label: '删除',
-            type: 'danger',
-            icon: 'el-icon-delete',
-            show: true,
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleDelete(row)
             }
           }
         ],
@@ -209,10 +225,7 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
+
       temp: {
         shipCode: '',
         applyNo: '',
@@ -226,18 +239,6 @@ export default {
         // countryCode: [{
         //   required: true,
         //   message: '不能为空'
-        // }],
-        // countryNameZh: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameEn: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // validFlag: [{
-        //   required: true,
-        //   message: '请选择状态'
         // }]
       }
     }
@@ -246,85 +247,20 @@ export default {
 
   },
   mounted() {
-    this.$nextTick(function() {
-      this.tableHeight = window.innerHeight - this.$refs.tableComponent.$refs.table.$el.offsetTop - 100;
-      // 监听窗口大小变化
-      const self = this;
-      window.onresize = function() {
-        self.tableHeight = window.innerHeight - self.$refs.tableComponent.$refs.table.$el.offsetTop - 100
-      }
-    })
+
   },
   methods: {
-    /* 重置 */
-    resetConditionForm() {
-      this.conditionList = [{
-        name: '',
-        operator: '',
-        value: ''
-      }]
-    },
+
     /* 关闭弹窗 */
     closeDialog() {
       this.dialogFormVisible = false
     },
-    /* 更多条件 */
-    addCondition(item, index) {
-      if (index >= 4) {
-        this.$message({
-          message: '最多5个条件',
-          type: 'warning'
-        })
-        return false
-      }
-      const subObj = {
-        name: '',
-        operator: '',
-        value: ''
-      }
-      this.conditionList.push(subObj)
-    },
-    removeCondition(item, index) {
-      if (this.conditionList.length === 1) {
-        return this.$message({
-          message: '最后一项不可删除',
-          type: 'warning'
-        })
-      }
-      this.conditionList.splice(index, 1)
-    },
-    conditionSearch() {
-      const data = {}
-      for (const item of this.conditionList) {
-        if (item.value) {
-          data[item.name] = item.value
-        }
-      }
-      data.page = 1
-      data.limit = this.listQuery.limit
-      this.dialogConditionVisible = false
-      queryCountry(data).then(res => {
-        if (res.success) {
-          this.tableData = res.data.records
-          this.listQuery.total = parseInt(res.data.totalRecord)
-        } else {
-          this.$message({
-            message: '搜索失败',
-            type: 'error'
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+
     /* 新增 */
     handleAdd() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.resetTemp();
+      this.dialogStatus = 'create';
+      this.dialogFormVisible = true;
     },
     resetTemp() {
       this.temp = {
@@ -339,23 +275,12 @@ export default {
     chooseAddMethod() {
       if (this.dialogStatus === 'create') {
         return this.createCountry()
-      } else {
-        return this.updateCountry()
       }
     },
-    newMethod() {
-      if (this.dialogStatus === 'create') {
-        return
-      }
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
+
     /* 新增 */
     createCountry() {
-      this.$refs['dataForm'].validate(valid => {
+      this.$refs['tableData'].validate(valid => {
         if (valid) {
           console.log(this.temp);
           this.temp.creator = 'admin';
@@ -380,32 +305,7 @@ export default {
         parseDsErrorMessage(response)
       }
     },
-    /* 更新 */
-    updateCountry() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          this.temp.creator = 'admin';
-          const tempData = Object.assign({}, this.temp);
-          console.log(this.temp);
-          updateCountry(tempData).then(response => this.handleUpdateResponse(response));
-        }
-      });
-    },
-    handleUpdateResponse(response) {
-      if (response.success) {
-        this.searchFn();
-        this.dialogFormVisible = false;
-        this.$notify({
-          title: '成功',
-          message: '更新成功',
-          type: 'success',
-          duration: 2000
-        });
-      } else {
-        console.log('error');
-        parseDsErrorMessage(response);
-      }
-    },
+
     // 查询方法
     handleSearch() {
       this.listQuery.page = 1
@@ -433,10 +333,7 @@ export default {
         console.log(err)
       })
     },
-    /* 更多条件 */
-    moreFn() {
-      this.dialogConditionVisible = true
-    },
+
     /* 重置 */
     resetFn() {
       this.$refs.filter.resetFields()
@@ -470,9 +367,6 @@ export default {
       this.temp.timestamp = new Date(this.temp.timestamp);
       this.dialogStatus = 'update';
       this.dialogFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate();
-      });
     },
 
     handleDelete(row) {

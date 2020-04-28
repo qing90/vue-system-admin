@@ -248,12 +248,7 @@
 </template>
 <script>
 import tableComponent from '@/components/TableComponent';
-import {
-  queryCountry,
-  addCountry,
-  deleteCountry,
-  exportCountry
-} from '@/api/country';
+import { addCountry, deleteCountry } from '@/api/country';
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList';
 import { parseDsErrorMessage } from '@/utils/responseUtil';
 export default {

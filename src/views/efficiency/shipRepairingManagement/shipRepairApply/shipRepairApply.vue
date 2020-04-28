@@ -8,12 +8,12 @@
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
           <el-col :md="6" :lg="5">
-            <el-form-item label="公司：" label-width="90px" prop="shipCode">
+            <el-form-item label="公司：" label-width="90px" prop="company">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option
-                  v-for="(item,index) in shipTypeList"
+                  v-for="(item,index) in companies"
                   :key="index"
-                  :label="item.name"
+                  :label="item.label"
                   :value="item.value"
                 />
               </el-select>
@@ -21,12 +21,12 @@
           </el-col>
 
           <el-col :md="6" :lg="5">
-            <el-form-item label="船舶：" label-width="90px" prop="shipCode" style="margin-left: 10px;">
+            <el-form-item label="船舶：" label-width="90px" prop="ship" style="margin-left: 10px;">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option
-                  v-for="(item,index) in shipTypeList"
+                  v-for="(item,index) in ship"
                   :key="index"
-                  :label="item.name"
+                  :label="item.label"
                   :value="item.value"
                 />
               </el-select>
@@ -50,9 +50,9 @@
             >
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option
-                  v-for="(item,index) in shipTypeList"
+                  v-for="(item,index) in repairTypeList"
                   :key="index"
-                  :label="item.name"
+                  :label="item.label"
                   :value="item.value"
                 />
               </el-select>
@@ -160,10 +160,10 @@
             <el-form-item label="船舶名称：" label-width="120px" prop="shipCode">
               <el-select v-model="temp.shipCode" placeholder="请选择">
                 <el-option
-                  v-for="(option,sindex) in validFlagList"
-                  :key="sindex"
-                  :value="option.value"
-                  :label="option.label"
+                  v-for="(item,index) in ship"
+                  :key="index"
+                  :value="item.value"
+                  :label="item.label"
                 />
               </el-select>
             </el-form-item>
@@ -172,10 +172,10 @@
             <el-form-item label="业务类别:" label-width="150px" prop="repairType">
               <el-select v-model="temp.repairType" placeholder="请选择">
                 <el-option
-                  v-for="(option,sindex) in validFlagList"
-                  :key="sindex"
-                  :value="option.value"
-                  :label="option.label"
+                  v-for="(item,index) in repairTypeList"
+                  :key="index"
+                  :value="item.value"
+                  :label="item.label"
                 />
               </el-select>
             </el-form-item>
@@ -273,14 +273,9 @@
 </template>
 <script>
 import tableComponent from '@/components/TableComponent';
-import {
-  queryCountry,
-  addCountry,
-  updateCountry,
-  deleteCountry,
-  exportCountry
-} from '@/api/country';
+import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country';
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList';
+import { listCompany, listRepairType, listShip, listRepairProject } from '@/api/common/generalParam';
 import { parseDsErrorMessage } from '@/utils/responseUtil';
 export default {
   components: { tableComponent },
@@ -296,48 +291,9 @@ export default {
         }
       ],
       radio: '1',
-      nameList: [
-        {
-          label: '国家/地区代码',
-          value: 'countryCode'
-        },
-        {
-          label: '国家/地区中文名',
-          value: 'countryNameZh'
-        },
-        {
-          label: '国家/地区英文名',
-          value: 'countryNameEn'
-        },
-        {
-          label: '是否有效',
-          value: 'validFlag'
-        },
-        {
-          label: '创建人',
-          value: 'creator'
-        }
-      ],
-      shipTypeList: [
-        { name: '生效', value: 1 },
-        { name: '失效', value: 0 }
-      ],
-      operatorsList: [
-        '=',
-        '!=',
-        '>',
-        '>=',
-        '<',
-        '<=',
-        '包含',
-        '介于',
-        '不包含',
-        '从属于'
-      ],
-      validList: [
-        { name: '生效', value: 1 },
-        { name: '失效', value: 0 }
-      ],
+      companies: [],
+      ship: [],
+      repairTypeList: [],
       validFlagList: [
         { label: '生效', value: true },
         { label: '失效', value: false }
@@ -430,17 +386,15 @@ export default {
         page: 1,
         limit: 20,
         total: 0,
-        countryCode: '',
-        countryNameZh: '',
-        countryNameEn: '',
+        company: '',
+        repairType: '',
+        ship: '',
+        repairProject: '',
+        repairNo: '',
         validFlag: undefined
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
       temp: {
         shipCode: '',
         applyNo: '',
@@ -454,23 +408,17 @@ export default {
         // countryCode: [{
         //   required: true,
         //   message: '不能为空'
-        // }],
-        // countryNameZh: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameEn: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // validFlag: [{
-        //   required: true,
-        //   message: '请选择状态'
         // }]
       }
     };
   },
-  created() {},
+  created() {
+    this.getCompany();
+    this.getRepairProject();
+    this.getShip(1);
+    this.getRepairType();
+  },
+
   mounted() {
     this.$nextTick(function() {
       this.tableHeight =
@@ -656,10 +604,71 @@ export default {
           console.log(err);
         });
     },
-    /* 更多条件 */
-    moreFn() {
-      this.dialogConditionVisible = true;
+
+    getCompany() {
+      listCompany().then(res => {
+        if (res.success) {
+          this.companies = res.data.return_data;
+        } else {
+          this.$message({
+            message: '获取公司集合失败',
+            type: 'error'
+          });
+        }
+      })
+        .catch(err => {
+          console.log(err);
+        });
     },
+
+    getRepairType() {
+      listRepairType().then(res => {
+        if (res.success) {
+          this.repairTypeList = res.data.return_data;
+        } else {
+          this.$message({
+            message: '获取公司集合失败',
+            type: 'error'
+          });
+        }
+      })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getShip() {
+      listShip().then(res => {
+        if (res.success) {
+          this.ship = res.data.return_data;
+        } else {
+          this.$message({
+            message: '获取公司集合失败',
+            type: 'error'
+          });
+        }
+      })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
+    getRepairProject() {
+      listRepairProject().then(res => {
+        if (res.success) {
+          this.repairProject = res.data.return_data;
+        } else {
+          this.$message({
+            message: '获取公司集合失败',
+            type: 'error'
+          });
+        }
+      })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     /* 重置 */
     resetFn() {
       this.$refs.filter.resetFields();

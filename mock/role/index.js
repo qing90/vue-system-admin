@@ -66,6 +66,52 @@ const country = {
     totalRecord:"3"
   } 
 
+const company = {  
+  return_data:[{
+    label: '明轮顺',
+    value: 'mls'
+  }, {
+    label: '神原汽船',
+    value: 'syqc'
+  }]
+}
+
+const repairType = {  
+  return_data:[{
+    label: '坞修',
+    value: '1'
+  }, {
+    label: '航修',
+    value: '2'
+  }]
+}
+
+const ship = {  
+  return_data:[{
+    label: '明轮顺_轮船1号',
+    value: 'mls_1'
+  }, {
+    label: '明轮顺_轮船2号',
+    value: 'mls_2'
+  },{
+    label: '神原汽船_轮船1号',
+    value: 'syqc_1'
+  }, {
+    label: '神原汽船_轮船2号',
+    value: 'syqc_2'
+  }]
+}
+
+const repairProject = {  
+  return_data:[{
+    label: '船体维修',
+    value: '001'
+  }, {
+    label: '电器维修',
+    value: '002'
+  }]
+}
+
 export default [
   // mock get all routes form server
   {
@@ -162,6 +208,60 @@ export default [
           data: country
         }
       }
-    }
+    },
+
+    // mock get Company form server
+    {
+      url: '/common/listCompany',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: company
+        }
+      }
+    },
+
+    // mock get RepairType form server
+    {
+      url: '/common/listRepairType',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: repairType
+        }
+      }
+    },
+
+    // mock get Ship form server
+    {
+      url: '/common/listShip',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: ship
+        }
+      }
+    },
+
+    // mock get Repair Project form server
+    {
+      url: '/common/listRepairProject',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: repairProject
+        }
+      }
+    },
+    
+
 
 ]
