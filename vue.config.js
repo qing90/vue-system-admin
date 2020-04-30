@@ -38,14 +38,17 @@ module.exports = {
     },
     proxy: {
       '/imop': {
-        target: 'http://127.0.0.1:8086',
+        //打包前注掉
+         target: 'http://127.0.0.1:8086',
+        //target: 'http://localhost:8080',
         changeOrigin: true,
         pathRewrite: {
           '^/imop': 'imop'
         }
       }
     },
-    before: require('./mock/mock-server.js')
+    //打包前注掉
+     before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

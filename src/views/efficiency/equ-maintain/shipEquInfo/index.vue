@@ -109,7 +109,6 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="生产日期">
-                  <!-- <el-input v-model="shipform.devProductDate"  clearable/> -->
                   <el-date-picker
                     v-model="shipform.devProductDate"
                     type="date"
@@ -992,6 +991,9 @@ export default {
 
 <style lang="scss" scoped>
 .app-container {
+  .el-date-editor.el-input, .el-date-editor.el-input__inner{
+    width: auto;
+  }
   .custom-tree-node {
     flex: 1;
     display: flex;
