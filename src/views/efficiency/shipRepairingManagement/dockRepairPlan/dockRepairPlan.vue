@@ -7,9 +7,8 @@
     <div class="filter-container">
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
-
           <el-col :md="6" :lg="5">
-            <el-form-item label="公司：" label-width="90px" prop="shipType" style="margin-left: 5;">
+            <el-form-item label="公司：" label-width="90px" prop="company" style="margin-left: 5;">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
               </el-select>
@@ -23,7 +22,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-
+          <el-col :md="6" :lg="5">
+            <el-form-item label="年份：" label-width="60px" prop="year">
+              <el-select v-model="listQuery.shipType" placeholder="请选择">
+                <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :xs="24" :md="24" :lg="6">
             <el-button type="primary" @click="handleSearch">查 询</el-button>
             <el-button type="default" icon="el-icon-refresh-right" @click="resetFn">重 置</el-button>
@@ -36,26 +41,87 @@
         <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">新 增</el-button>
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
-      <table-component
-        ref="tableComponent"
-        :height="tableHeight"
-        :data="tableData"
-        :options="options"
-        :pagination="listQuery"
-        :columns="columns"
-        :operates="operates"
-        @handleRowClick="handleRowClick"
-        @handleSelectionChange="handleSelectionChange"
-        @handleIndexChange="handleIndexChange"
-        @handleSizeChange="handleSizeChange"
-      />
+      <el-table :data="dockRepairPlan" style="width: 100%">
+        <el-table-column type="index" label="No." width="50px;" />
+        <el-table-column prop="date" label="船舶" width="150px;" />
+        <el-table-column label="2020" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;">
+            <template slot-scope="scope">
+              <div slot="reference" class="name-wrapper" style="text-align: center">
+                <el-tag :type="ASSET_STATUS[scope.row.status].type">
+                  {{ ASSET_STATUS[scope.row.status].status }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+        <el-table-column label="2021" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+        <el-table-column label="2022" header-align="center">
+          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="2" width="40px;" />
+          <el-table-column prop="name" label="3" width="40px;" />
+          <el-table-column prop="name" label="4" width="40px;" />
+          <el-table-column prop="name" label="5" width="40px;" />
+          <el-table-column prop="name" label="6" width="40px;" />
+          <el-table-column prop="name" label="7" width="40px;" />
+          <el-table-column prop="name" label="8" width="40px;" />
+          <el-table-column prop="name" label="9" width="40px;" />
+          <el-table-column prop="name" label="10" width="40px;" />
+          <el-table-column prop="name" label="11" width="40px;" />
+          <el-table-column prop="name" label="12" width="40px;" />
+        </el-table-column>
+      </el-table>
+      <el-row>
+        <el-col span="12">
+          <el-pagination
+            :total="listQuery.total"
+            :page-sizes="[10, 20, 50]"
+            :page-size.sync="listQuery.limit"
+            :current-page.sync="listQuery.page"
+            layout="total, sizes, prev, pager, next, jumper"
+            prev-text="上一页"
+            next-text="下一页"
+            style="margin-top: 15px;text-align: left"
+            @size-change="handleSizeChange"
+            @current-change="handleIndexChange"
+          />
+        </el-col>
+        <el-col span="12">
+          <span style="text-align: left;display:block;margin-top: 25px;">绿色背景表示此次修理已经完成，黄色表示船检到期日期</span>
+        </el-col>
+      </el-row>
+
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
       <div class="form-title">
-        <span>修船申请信息</span>
+        <span>Pacifc Success</span>
       </div>
-      <div>
+      <!-- <div>
         <el-table :data="tableData" style="width: 100%" height="250">
           <el-table-column fixed prop="year" label="年份" width="150" />
           <el-table-column fixed prop="date" label="SS/DD" width="150" />
@@ -66,24 +132,94 @@
           <el-table-column fixed prop="date" label="实际修理天数" width="150" />
           <el-table-column fixed prop="date" label="以修理完成" width="150" />
         </el-table>
+      </div> -->
+      <div>
+        <el-form
+          ref="dataForm"
+          :rules="rules"
+          :model="temp"
+          label-position="left"
+          class="dialog-form"
+        >
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="计划日期：" label-width="120px" prop="planDate">
+                <el-date-picker v-model="temp.planDate" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="修船类别：" label-width="120px" prop="repairType">
+                <el-radio :label="1">SS</el-radio>
+                <el-radio :label="2">DD</el-radio>
+                <el-radio :label="3">非计划性修船</el-radio>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="船检到期日期：" label-width="120px" prop="dueDateOfInspection">
+                <el-date-picker v-model="temp.dueDateOfInspection" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="计划修理天数：" label-width="120px" prop="planRepairDay">
+                <el-input v-model="temp.planRepairDay" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="实际修理日期：" label-width="120px" prop="trueRepairDate">
+                <el-date-picker v-model="temp.trueRepairDate" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="实际修理天数：" label-width="120px" prop="trueRepairDay">
+                <el-input v-model="temp.trueRepairDay" :disabled="true" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="15">
+              <el-form-item label="状态:" label-width="120px" prop="status">
+                <el-radio :label="1">计划中</el-radio>
+                <el-radio :label="2">进行中</el-radio>
+                <el-radio :label="3">完成</el-radio>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
 
-      <div class="form-dialog-header">
+      <div class="form-dialog-bottom">
         <div class="header-opt">
-          <el-button plain type="default" class="btn-plain-success" icon="el-icon-check" size="mini" @click="chooseAddMethod">保 存</el-button>
+          <el-button plain type="default" icon="el-icon-check" size="mini" @click="submit">保 存</el-button>
           <el-button plain type="default" icon="el-icon-close" size="mini" @click="closeDialog">取消</el-button>
         </div>
       </div>
+
     </el-dialog>
   </div>
 </template>
 <script>
-import tableComponent from '@/components/TableComponent'
-import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country'
+
+import { queryCountry, addCountry, deleteCountry, exportCountry } from '@/api/country'
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList'
 import { parseDsErrorMessage } from '@/utils/responseUtil'
 export default {
-  components: { tableComponent },
+
   data() {
     return {
       dialogConditionVisible: false,
@@ -94,28 +230,11 @@ export default {
         value: ''
       }],
       radio: '1',
-      nameList: [{
-        label: '国家/地区代码',
-        value: 'countryCode'
-      }, {
-        label: '国家/地区中文名',
-        value: 'countryNameZh'
-      }, {
-        label: '国家/地区英文名',
-        value: 'countryNameEn'
-      }, {
-        label: '是否有效',
-        value: 'validFlag'
-      }, {
-        label: '创建人',
-        value: 'creator'
-      }],
       shipTypeList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
-      operatorsList: ['=', '!=', '>', '>=', '<', '<=', '包含', '介于', '不包含', '从属于'],
-      validList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
-      validFlagList: [{ label: '生效', value: true }, { label: '失效', value: false }],
       tableData: [],
+      dockRepairPlan: [],
       tableHeight: '', // 高度
+
       // table 的参数
       options: {
         border: true,
@@ -170,7 +289,7 @@ export default {
         list: [
           {
             id: '1',
-            label: '编辑',
+            label: '详情',
             type: 'primary',
             show: true,
             icon: 'el-icon-edit-outline',
@@ -179,19 +298,6 @@ export default {
             btnType: 'icon',
             method: (index, row) => {
               this.handleUpdate(row);
-            }
-          },
-          {
-            id: '2',
-            label: '删除',
-            type: 'danger',
-            icon: 'el-icon-delete',
-            show: true,
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleDelete(row)
             }
           }
         ],
@@ -209,35 +315,19 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
+
       temp: {
-        shipCode: '',
-        applyNo: '',
+        planDate: '',
         repairType: '',
-        planRepairDate: '',
-        lastRepairDate: '',
-        proposer: '',
-        applyDate: ''
+        dueDateOfInspection: '',
+        planRepairDay: '',
+        trueRepairDate: '',
+        trueRepairDay: ''
       },
       rules: {
         // countryCode: [{
         //   required: true,
         //   message: '不能为空'
-        // }],
-        // countryNameZh: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // countryNameEn: [{
-        //   required: true,
-        //   message: '不能为空'
-        // }],
-        // validFlag: [{
-        //   required: true,
-        //   message: '请选择状态'
         // }]
       }
     }
@@ -246,85 +336,20 @@ export default {
 
   },
   mounted() {
-    this.$nextTick(function() {
-      this.tableHeight = window.innerHeight - this.$refs.tableComponent.$refs.table.$el.offsetTop - 100;
-      // 监听窗口大小变化
-      const self = this;
-      window.onresize = function() {
-        self.tableHeight = window.innerHeight - self.$refs.tableComponent.$refs.table.$el.offsetTop - 100
-      }
-    })
+
   },
   methods: {
-    /* 重置 */
-    resetConditionForm() {
-      this.conditionList = [{
-        name: '',
-        operator: '',
-        value: ''
-      }]
-    },
+
     /* 关闭弹窗 */
     closeDialog() {
       this.dialogFormVisible = false
     },
-    /* 更多条件 */
-    addCondition(item, index) {
-      if (index >= 4) {
-        this.$message({
-          message: '最多5个条件',
-          type: 'warning'
-        })
-        return false
-      }
-      const subObj = {
-        name: '',
-        operator: '',
-        value: ''
-      }
-      this.conditionList.push(subObj)
-    },
-    removeCondition(item, index) {
-      if (this.conditionList.length === 1) {
-        return this.$message({
-          message: '最后一项不可删除',
-          type: 'warning'
-        })
-      }
-      this.conditionList.splice(index, 1)
-    },
-    conditionSearch() {
-      const data = {}
-      for (const item of this.conditionList) {
-        if (item.value) {
-          data[item.name] = item.value
-        }
-      }
-      data.page = 1
-      data.limit = this.listQuery.limit
-      this.dialogConditionVisible = false
-      queryCountry(data).then(res => {
-        if (res.success) {
-          this.tableData = res.data.records
-          this.listQuery.total = parseInt(res.data.totalRecord)
-        } else {
-          this.$message({
-            message: '搜索失败',
-            type: 'error'
-          })
-        }
-      }).catch(err => {
-        console.log(err)
-      })
-    },
+
     /* 新增 */
     handleAdd() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
+      this.resetTemp();
+      this.dialogStatus = 'create';
+      this.dialogFormVisible = true;
     },
     resetTemp() {
       this.temp = {
@@ -336,26 +361,15 @@ export default {
         validFlag: true
       };
     },
-    chooseAddMethod() {
+    submit() {
       if (this.dialogStatus === 'create') {
         return this.createCountry()
-      } else {
-        return this.updateCountry()
       }
     },
-    newMethod() {
-      if (this.dialogStatus === 'create') {
-        return
-      }
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
-    },
+
     /* 新增 */
     createCountry() {
-      this.$refs['dataForm'].validate(valid => {
+      this.$refs['tableData'].validate(valid => {
         if (valid) {
           console.log(this.temp);
           this.temp.creator = 'admin';
@@ -380,32 +394,7 @@ export default {
         parseDsErrorMessage(response)
       }
     },
-    /* 更新 */
-    updateCountry() {
-      this.$refs['dataForm'].validate(valid => {
-        if (valid) {
-          this.temp.creator = 'admin';
-          const tempData = Object.assign({}, this.temp);
-          console.log(this.temp);
-          updateCountry(tempData).then(response => this.handleUpdateResponse(response));
-        }
-      });
-    },
-    handleUpdateResponse(response) {
-      if (response.success) {
-        this.searchFn();
-        this.dialogFormVisible = false;
-        this.$notify({
-          title: '成功',
-          message: '更新成功',
-          type: 'success',
-          duration: 2000
-        });
-      } else {
-        console.log('error');
-        parseDsErrorMessage(response);
-      }
-    },
+
     // 查询方法
     handleSearch() {
       this.listQuery.page = 1
@@ -433,10 +422,7 @@ export default {
         console.log(err)
       })
     },
-    /* 更多条件 */
-    moreFn() {
-      this.dialogConditionVisible = true
-    },
+
     /* 重置 */
     resetFn() {
       this.$refs.filter.resetFields()
@@ -470,9 +456,6 @@ export default {
       this.temp.timestamp = new Date(this.temp.timestamp);
       this.dialogStatus = 'update';
       this.dialogFormVisible = true;
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate();
-      });
     },
 
     handleDelete(row) {
@@ -523,20 +506,19 @@ export default {
 }
 .form-dialog{
 
-  .form-dialog-header{
-    position: absolute;
-    top: 0;
+  .form-dialog-bottom {
+    //position: absolute;
+    //top: 0;
+    margin: 10px;
+    margin-left: 70%;
+    bottom: 10px;
     left: 0;
-    width: 100%;
+    width: 20%;
     padding: 20px;
     overflow: hidden;
-    .header-title{
-      font-size: 16px;
-      color: #666;
-      float: left;
-    }
-    .header-opt{
-       float: right;
+
+    .header-opt {
+      float: right;
     }
   }
   .dialog-form{
