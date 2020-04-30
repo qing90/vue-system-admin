@@ -8,7 +8,7 @@
       <el-form ref="filter" label-position="left" :model="listQuery">
         <el-row :gutter="10">
           <el-col :md="6" :lg="5">
-            <el-form-item label="公司：" label-width="90px" prop="shipType" style="margin-left: 5;">
+            <el-form-item label="公司：" label-width="90px" prop="company" style="margin-left: 5;">
               <el-select v-model="listQuery.shipType" placeholder="请选择">
                 <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
               </el-select>
@@ -22,7 +22,13 @@
               </el-select>
             </el-form-item>
           </el-col>
-
+          <el-col :md="6" :lg="5">
+            <el-form-item label="年份：" label-width="60px" prop="year">
+              <el-select v-model="listQuery.shipType" placeholder="请选择">
+                <el-option v-for="(item,index) in shipTypeList" :key="index" :label="item.name" :value="item.value" />
+              </el-select>
+            </el-form-item>
+          </el-col>
           <el-col :xs="24" :md="24" :lg="6">
             <el-button type="primary" @click="handleSearch">查 询</el-button>
             <el-button type="default" icon="el-icon-refresh-right" @click="resetFn">重 置</el-button>
@@ -38,9 +44,16 @@
       <el-table :data="dockRepairPlan" style="width: 100%">
         <el-table-column type="index" label="No." width="50px;" />
         <el-table-column prop="date" label="船舶" width="150px;" />
-        <el-table-column prop="date" label="操作" width="80px;" />
         <el-table-column label="2020" header-align="center">
-          <el-table-column prop="name" label="1" width="40px;" />
+          <el-table-column prop="name" label="1" width="40px;">
+            <template slot-scope="scope">
+              <div slot="reference" class="name-wrapper" style="text-align: center">
+                <el-tag :type="ASSET_STATUS[scope.row.status].type">
+                  {{ ASSET_STATUS[scope.row.status].status }}
+                </el-tag>
+              </div>
+            </template>
+          </el-table-column>
           <el-table-column prop="name" label="2" width="40px;" />
           <el-table-column prop="name" label="3" width="40px;" />
           <el-table-column prop="name" label="4" width="40px;" />
@@ -82,26 +95,33 @@
           <el-table-column prop="name" label="12" width="40px;" />
         </el-table-column>
       </el-table>
+      <el-row>
+        <el-col span="12">
+          <el-pagination
+            :total="listQuery.total"
+            :page-sizes="[10, 20, 50]"
+            :page-size.sync="listQuery.limit"
+            :current-page.sync="listQuery.page"
+            layout="total, sizes, prev, pager, next, jumper"
+            prev-text="上一页"
+            next-text="下一页"
+            style="margin-top: 15px;text-align: left"
+            @size-change="handleSizeChange"
+            @current-change="handleIndexChange"
+          />
+        </el-col>
+        <el-col span="12">
+          <span style="text-align: left;display:block;margin-top: 25px;">绿色背景表示此次修理已经完成，黄色表示船检到期日期</span>
+        </el-col>
+      </el-row>
 
-      <el-pagination
-        :total="listQuery.total"
-        :page-sizes="[10, 20, 50]"
-        :page-size.sync="listQuery.limit"
-        :current-page.sync="listQuery.page"
-        layout="total, sizes, prev, pager, next, jumper"
-        prev-text="上一页"
-        next-text="下一页"
-        style="margin-top: 15px;text-align: center"
-        @size-change="handleSizeChange"
-        @current-change="handleIndexChange"
-      />
     </div>
     <!-- 更新新增 -->
     <el-dialog :visible.sync="dialogFormVisible" width="80%" :show-close="false" class="form-dialog">
       <div class="form-title">
         <span>Pacifc Success</span>
       </div>
-      <div>
+      <!-- <div>
         <el-table :data="tableData" style="width: 100%" height="250">
           <el-table-column fixed prop="year" label="年份" width="150" />
           <el-table-column fixed prop="date" label="SS/DD" width="150" />
@@ -112,14 +132,84 @@
           <el-table-column fixed prop="date" label="实际修理天数" width="150" />
           <el-table-column fixed prop="date" label="以修理完成" width="150" />
         </el-table>
+      </div> -->
+      <div>
+        <el-form
+          ref="dataForm"
+          :rules="rules"
+          :model="temp"
+          label-position="left"
+          class="dialog-form"
+        >
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="计划日期：" label-width="120px" prop="planDate">
+                <el-date-picker v-model="temp.planDate" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="修船类别：" label-width="120px" prop="repairType">
+                <el-radio :label="1">SS</el-radio>
+                <el-radio :label="2">DD</el-radio>
+                <el-radio :label="3">非计划性修船</el-radio>
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="12">
+              <el-form-item label="船检到期日期：" label-width="120px" prop="dueDateOfInspection">
+                <el-date-picker v-model="temp.dueDateOfInspection" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="计划修理天数：" label-width="120px" prop="planRepairDay">
+                <el-input v-model="temp.planRepairDay" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="实际修理日期：" label-width="120px" prop="trueRepairDate">
+                <el-date-picker v-model="temp.trueRepairDate" type="date" placeholder="选择日期" />
+              </el-form-item>
+            </el-col>
+
+          </el-row>
+          <el-row :gutter="10">
+            <el-col :span="7">
+              <el-form-item label="实际修理天数：" label-width="120px" prop="trueRepairDay">
+                <el-input v-model="temp.trueRepairDay" :disabled="true" />
+              </el-form-item>
+            </el-col>
+          </el-row>
+
+          <el-row :gutter="10">
+            <el-col :span="15">
+              <el-form-item label="状态:" label-width="120px" prop="status">
+                <el-radio :label="1">计划中</el-radio>
+                <el-radio :label="2">进行中</el-radio>
+                <el-radio :label="3">完成</el-radio>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
 
-      <div class="form-dialog-header">
+      <div class="form-dialog-bottom">
         <div class="header-opt">
-          <el-button plain type="default" class="btn-plain-success" icon="el-icon-check" size="mini" @click="chooseAddMethod">保 存</el-button>
+          <el-button plain type="default" icon="el-icon-check" size="mini" @click="submit">保 存</el-button>
           <el-button plain type="default" icon="el-icon-close" size="mini" @click="closeDialog">取消</el-button>
         </div>
       </div>
+
     </el-dialog>
   </div>
 </template>
@@ -227,13 +317,12 @@ export default {
       dialogStatus: '',
 
       temp: {
-        shipCode: '',
-        applyNo: '',
+        planDate: '',
         repairType: '',
-        planRepairDate: '',
-        lastRepairDate: '',
-        proposer: '',
-        applyDate: ''
+        dueDateOfInspection: '',
+        planRepairDay: '',
+        trueRepairDate: '',
+        trueRepairDay: ''
       },
       rules: {
         // countryCode: [{
@@ -272,7 +361,7 @@ export default {
         validFlag: true
       };
     },
-    chooseAddMethod() {
+    submit() {
       if (this.dialogStatus === 'create') {
         return this.createCountry()
       }
@@ -417,20 +506,19 @@ export default {
 }
 .form-dialog{
 
-  .form-dialog-header{
-    position: absolute;
-    top: 0;
+  .form-dialog-bottom {
+    //position: absolute;
+    //top: 0;
+    margin: 10px;
+    margin-left: 70%;
+    bottom: 10px;
     left: 0;
-    width: 100%;
+    width: 20%;
     padding: 20px;
     overflow: hidden;
-    .header-title{
-      font-size: 16px;
-      color: #666;
-      float: left;
-    }
-    .header-opt{
-       float: right;
+
+    .header-opt {
+      float: right;
     }
   }
   .dialog-form{

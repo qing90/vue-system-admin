@@ -40,35 +40,54 @@
                     <el-input v-model="scope.row.remark" class="remark" />
                   </template>
                 </el-table-column>
-                <el-table-column label="工作描述">
+                <el-table-column label="项目名称">
                   <template slot-scope="scope">
                     <el-input v-model="scope.row.remark" type="textarea" class="remark" />
                   </template>
                 </el-table-column>
-                <el-table-column label="修理设备">
+                <el-table-column label="数量">
                   <template slot-scope="scope">
                     <el-input v-model="scope.row.require_des" />
                   </template>
                 </el-table-column>
-                <el-table-column label="数量单位">
+                <el-table-column label="单位">
                   <template slot-scope="scope">
                     <el-input v-model="scope.row.require_des" />
                   </template>
                 </el-table-column>
-                <el-table-column label="材料或者备件需求描述">
-                  <template slot-scope="scope">
-                    <el-input v-model="scope.row.require_des" />
-                  </template>
+                <el-table-column label="供应商1">
+                  <el-table-column label="单价">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="折扣">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="折后金额">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
                 </el-table-column>
-                <el-table-column label="...">
-                  <template slot-scope="scope">
-                    <el-input v-model="scope.row.require_des" />
-                  </template>
-                </el-table-column>
-                <el-table-column label="操作">
-                  <template slot-scope="scope">
-                    <el-input v-model="scope.row.require_des" />
-                  </template>
+                <el-table-column label="供应商2">
+                  <el-table-column label="单价">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="折扣">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
+                  <el-table-column label="折后金额">
+                    <template slot-scope="scope">
+                      <el-input v-model="scope.row.require_des" />
+                    </template>
+                  </el-table-column>
                 </el-table-column>
               </el-table>
             </div>
@@ -138,13 +157,7 @@
 </template>
 <script>
 import tableComponent from '@/components/TableComponent';
-import {
-  queryCountry,
-  addCountry,
-  updateCountry,
-  deleteCountry,
-  exportCountry
-} from '@/api/country';
+import { queryCountry, addCountry, updateCountry, deleteCountry } from '@/api/country';
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList';
 import { parseDsErrorMessage } from '@/utils/responseUtil';
 export default {
@@ -238,34 +251,7 @@ export default {
       ],
       // 列操作按钮
       operates: {
-        list: [
-          {
-            id: '1',
-            label: '编辑',
-            type: 'primary',
-            show: true,
-            icon: 'el-icon-edit-outline',
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleUpdate(row);
-            }
-          },
-          {
-            id: '2',
-            label: '删除',
-            type: 'danger',
-            icon: 'el-icon-delete',
-            show: true,
-            plain: false,
-            disabled: false,
-            btnType: 'icon',
-            method: (index, row) => {
-              this.handleDelete(row);
-            }
-          }
-        ],
+        list: [],
         fixed: false,
         width: 230
       },
@@ -487,11 +473,6 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
-
-    /* 重置 */
-    resetFn() {
-      this.$refs.filter.resetFields();
     },
 
     handleRowClick() {},

@@ -112,6 +112,34 @@ const repairProject = {
   }]
 }
 
+const projectLibraryData = {
+  return_data:[
+     {
+      projectCode: 'D1',
+      projectName: '2016-05-04',
+      unit: 'week',
+      remark: '上海市普陀区金沙江路 1517 弄',
+      children:[]
+    }, {
+      projectCode: 'D2',
+      projectName: '2016-05-01',
+      unit: 'day',
+      remark: '上海市普陀区金沙江路 1519 弄',
+      children: [{
+        projectCode: 'D2.1',
+        projectName: '2016-05-01',
+        unit: 'day',
+        remark: '上海市普陀区金沙江路 1519 弄'
+        }, {
+          projectCode: 'D2.2',
+          projectName: '2016-05-01',
+          unit: 'day',
+          remark: '上海市普陀区金沙江路 1519 弄'
+      }]
+    }
+  ]
+}
+
 export default [
   // mock get all routes form server
   {
@@ -261,7 +289,43 @@ export default [
         }
       }
     },
-    
+
+    // mock get Repair Project form server
+    {
+      url: '/projectLibrary/lsitLibrary',
+      type: 'get',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true,
+          data: projectLibraryData
+        }
+      }
+    },
+
+     // mock get Repair Project form server
+     {
+      url: '/projectLibrary/saveProjectLibrary',
+      type: 'post',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true
+        }
+      }
+    },   
+
+    // mock get Repair Project form server
+    {
+      url: '/projectLibrary/updateProjectLibrary',
+      type: 'post',
+      response: _ => {
+        return {
+          msg: '请求成功',
+          success: true
+        }
+      }
+    },
 
 
 ]
