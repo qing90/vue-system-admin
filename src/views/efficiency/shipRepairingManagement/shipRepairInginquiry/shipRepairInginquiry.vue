@@ -38,6 +38,7 @@
     </div>
     <div class="table-container">
       <div class="opt">
+        <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">{{ $t("test.testxx") }}</el-button>
         <el-button plain type="plain" icon="el-icon-plus" class="btn-plain-primary" @click="handleAdd">新 增</el-button>
         <el-button plain type="default" icon="el-icon-download" class="btn-plain-success" @click="handleExport">导 出</el-button>
       </div>
@@ -58,7 +59,7 @@
           />
         </el-tab-pane>
 
-        <el-tab-pane label="待询价" name="two">
+        <el-tab-pane label="询价中" name="two">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -74,7 +75,7 @@
           />
         </el-tab-pane>
 
-        <el-tab-pane label="审批中" name="third">
+        <el-tab-pane label="比价审批中" name="third">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -91,6 +92,22 @@
         </el-tab-pane>
 
         <el-tab-pane label="已完成" name="four">
+          <table-component
+            ref="tableComponent"
+            :height="tableHeight"
+            :data="tableData"
+            :options="options"
+            :pagination="listQuery"
+            :columns="columns"
+            :operates="operates"
+            @handleRowClick="handleRowClick"
+            @handleSelectionChange="handleSelectionChange"
+            @handleIndexChange="handleIndexChange"
+            @handleSizeChange="handleSizeChange"
+          />
+        </el-tab-pane>
+
+        <el-tab-pane label="已取消" name="five">
           <table-component
             ref="tableComponent"
             :height="tableHeight"
@@ -220,6 +237,7 @@ import tableComponent from '@/components/TableComponent'
 import { queryCountry, addCountry, updateCountry, deleteCountry, exportCountry } from '@/api/country'
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList'
 import { parseDsErrorMessage } from '@/utils/responseUtil'
+import i18n from '@/lang'
 export default {
   components: { tableComponent },
   data() {
@@ -249,10 +267,13 @@ export default {
         value: 'creator'
       }],
       shipTypeList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
-      operatorsList: ['=', '!=', '>', '>=', '<', '<=', '包含', '介于', '不包含', '从属于'],
-      validList: [{ name: '生效', value: 1 }, { name: '失效', value: 0 }],
       validFlagList: [{ label: '生效', value: true }, { label: '失效', value: false }],
       tableData: [],
+      waitInquiryData: [], // 待询价数据
+      inquiryData: [], // 询价中数据
+      inquiryApprovalData: [], // 比价审批中数据
+      finishedInquiryData: [], // 已完成比价数据
+      canceInquirylData: [], // 取消询价数据
       tableHeight: '', // 高度
       // table 的参数
       options: {
@@ -347,10 +368,6 @@ export default {
       },
       dialogFormVisible: false,
       dialogStatus: '',
-      textMap: {
-        update: '编辑',
-        create: '添加'
-      },
       temp: {
         shipCode: '',
         applyNo: '',

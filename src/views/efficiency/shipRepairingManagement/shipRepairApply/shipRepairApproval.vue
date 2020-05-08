@@ -3,15 +3,15 @@
     <el-breadcrumb class="breadcrumb" separator-class="el-icon-arrow-right">
       <el-breadcrumb-item>修船管理</el-breadcrumb-item>
       <el-breadcrumb-item>修船申请</el-breadcrumb-item>
-      <el-breadcrumb-item>修船详情</el-breadcrumb-item>
+      <el-breadcrumb-item>申请审批</el-breadcrumb-item>
     </el-breadcrumb>
     <div>
       <div class="actionButtons">
         <el-row>
           <el-col span:24>
-            <el-button class="buttons-top" icon="el-icon-delete" type="primary" @click="addRow()">废弃</el-button>
-            <el-button class="buttons-top" icon="el-icon-save" type="primary" @click="delData()">保存</el-button>
-            <el-button class="buttons-top" icon="el-icon-submit" type="primary" @click="handleSearch">提交</el-button>
+            <el-button class="buttons-top" icon="el-icon-delete" type="primary" @click="save()">保存</el-button>
+            <el-button class="buttons-top" icon="el-icon-save" type="primary" @click="rejected()">驳回</el-button>
+            <el-button class="buttons-top" icon="el-icon-submit" type="primary" @click="pass()">通过</el-button>
           </el-col>
         </el-row>
       </div>
@@ -51,13 +51,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="申请单号:" label-width="120px" prop="repairType">
-                <el-input v-model="temp.countryNameEn" placeholder="请输入" />
+              <el-form-item label="申请单号:" label-width="120px" prop="approvalNo">
+                <el-input v-model="temp.approvalNo" placeholder="请输入" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="状态:" label-width="120px" prop="planRepairDate">
-                <el-select v-model="temp.shipCode" placeholder="请选择">
+              <el-form-item label="状态:" label-width="120px" prop="status">
+                <el-select v-model="temp.status" placeholder="请选择">
                   <el-option
                     v-for="(option,index) in ship"
                     :key="index"
@@ -71,18 +71,18 @@
 
           <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="申请人:" label-width="120px" prop="planRepairDate">
-                <el-input v-model="temp.countryNameEn" placeholder="请输入 ..." />
+              <el-form-item label="申请人:" label-width="120px" prop="proposer">
+                <el-input v-model="temp.proposer" placeholder="请输入 ..." />
               </el-form-item>
             </el-col>
 
             <el-col :span="6">
-              <el-form-item label="申请日期:" label-width="120px" prop="lastRepairDate">
-                <el-date-picker v-model="temp.lastRepairDate" style="width:auto" type="date" placeholder="选择日期" />
+              <el-form-item label="申请日期:" label-width="120px" prop="applyDate">
+                <el-date-picker v-model="temp.applyDate" style="width:auto" type="date" placeholder="选择日期" />
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <el-form-item label="修理类别:" label-width="120px" prop="countryNameEn">
+              <el-form-item label="修理类别:" label-width="120px" prop="repairType">
                 <el-radio v-model="radio" label="1">航修</el-radio>
                 <el-radio v-model="radio" label="2">坞修</el-radio>
               </el-form-item>
@@ -99,16 +99,16 @@
           </el-row>
           <el-row :gutter="10">
             <el-col :span="6">
-              <el-form-item label="坞修计划:" label-width="120px" prop="countryNameEn">
-                <el-date-picker v-model="temp.lastRepairDate" style="width:auto" type="date" placeholder="选择日期" />
+              <el-form-item label="坞修计划:" label-width="120px" prop="planDockDate">
+                <el-date-picker v-model="temp.planDockDate" style="width:auto" type="date" placeholder="选择日期" />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="10">
             <el-col :span="20">
-              <el-form-item label="备注:" label-width="120px" prop="countryNameEn">
+              <el-form-item label="备注:" label-width="120px" prop="remark">
                 <el-input
-                  v-model="temp.countryNameEn"
+                  v-model="temp.remark"
                   type="textarea"
                   :rows="3"
                   style="width: 80%;"
@@ -120,18 +120,59 @@
         </el-form>
       </div>
     </div>
-
-    <!-- <div class="actionButtons">
+    <div class="approval_process">
+      <el-tabs v-model="activeName2" @tab-click="handleClick">
+        <el-tab-pane label="审批流程" name="approval_process">
+          <div class="approval_step">
+            <el-steps :active="active" align-center finish-status="success" style="margin-top:10;">
+              <el-step title="1级审批" />
+              <el-step title="2级审批" />
+              <el-step title="3级审批" />
+              <el-step title="4级审批" />
+              <el-step title="5级审批" />
+            </el-steps>
+            <span>
+              审批意见:
+            </span>
+            <span>
+              <el-input
+                v-model="approvalRemark"
+                type="textarea"
+                :rows="3"
+                style="width: 80%;"
+                placeholder="请输入"
+              />
+            </span>
+          </div>
+        </el-tab-pane>
+        <el-tab-pane label="审批记录" name="approval_records">
+          <div class="approval_records">
+            <el-table
+              :data="approvalRecords"
+              style="width: 100%"
+            >
+              <el-table-column label="序号" type="index" width="60" align="center" />
+              <el-table-column label="流程节点" prop="activeCode" />
+              <el-table-column label="执行人" prop="executor" />
+              <el-table-column label="执行日期" prop="executionDate" />
+              <el-table-column label="执行结果" prop="executionResult" />
+              <el-table-column label="意见" prop="remark" />
+            </el-table>
+          </div>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+    <div class="actionButtons">
       <el-row>
         <el-col span:24>
           <el-button type="primary" icon="el-icon-plus" @click="addRow()">增加自定义项目</el-button>
-          <el-button type="primary" icon="el-icon-plus"  @click="delData()">选择标准项目</el-button>
-          <el-button type="primary" icon="el-icon-plus"  @click="handleSearch">选择修理遗留项目</el-button>
-          <el-button type="primary" icon="el-icon-plus"  @click="save()">选择遗留工单</el-button>
-          <el-button type="primary" icon="el-icon-plus"  @click="submit()">选择设备故障单</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="delData()">选择标准项目</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="handleSearch">选择修理遗留项目</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="save()">选择遗留工单</el-button>
+          <el-button type="primary" icon="el-icon-plus" @click="submit()">选择设备故障单</el-button>
         </el-col>
       </el-row>
-    </div> -->
+    </div>
 
     <div class="table-container">
       <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -146,15 +187,7 @@
                 stripe
                 style="width: 100%"
               >
-                <el-table-column label="修理工程">
-                  <el-table-column prop="engineering" min-width="80%" />
-                  <el-table-column min-width="20%">
-                    <template slot-scope="scope">
-                      <el-button icon="el-icon-circle-plus-outline" size="small" @click="handleAdd(scope.row)" />
-                    </template>
-                  </el-table-column>
-
-                </el-table-column>
+                <el-table-column label="修理工程" prop="engineering" />
               </el-table>
             </div>
             <div class="right-side">
@@ -234,210 +267,27 @@
           </div>
         </el-tab-pane>
 
-        <el-tab-pane label="附件" name="two">
-          <table-component
-            ref="tableComponent"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
+        <el-tab-pane label="附件" name="two" />
 
-        <el-tab-pane label="已审批" name="third">
-          <table-component
-            ref="审批记录"
-            :height="tableHeight"
-            :data="tableData"
-            :options="options"
-            :pagination="listQuery"
-            :columns="columns"
-            :operates="operates"
-            @handleRowClick="handleRowClick"
-            @handleSelectionChange="handleSelectionChange"
-            @handleIndexChange="handleIndexChange"
-            @handleSizeChange="handleSizeChange"
-          />
-        </el-tab-pane>
       </el-tabs>
-    </div>
-    <div>
-      <!-- 更新新增 -->
-      <el-dialog
-        :visible.sync="dialogFormVisible"
-        width="70%"
-        :show-close="false"
-        class="form-dialog"
-      >
-        <div>
-          <el-form
-            ref="dataForm"
-            :rules="rules"
-            :model="temp"
-            label-position="left"
-            class="dialog-form"
-          >
-            <el-row :gutter="10">
-              <el-col :span="21">
-                <el-form-item label="父修理项目：" label-width="120px" prop="fatherProject">
-                  <el-input v-model="temp.fatherProject" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="7">
-                <el-form-item label="项目编码：" label-width="120px" prop="projectCode">
-                  <el-input v-model="temp.projectCode" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="21">
-                <el-form-item label="当前项目：" label-width="120px" prop="projectName">
-                  <el-input
-                    v-model="temp.projectName"
-                    type="textarea"
-                    :rows="3"
-                    style="width: 100%;"
-                    placeholder="请输入"
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="7">
-                <el-form-item label="数量：" label-width="120px" prop="count">
-                  <el-input v-model="count" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="单位：" label-width="120px" prop="unit">
-                  <el-select v-model="temp.unit" placeholder="请选择">
-                    <el-option
-                      v-for="(option,sindex) in validFlagList"
-                      :key="sindex"
-                      :value="option.value"
-                      :label="option.label"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="费用科目：" label-width="120px" prop="unit">
-                  <el-select v-model="temp.unit" placeholder="请选择">
-                    <el-option
-                      v-for="(option,sindex) in validFlagList"
-                      :key="sindex"
-                      :value="option.value"
-                      :label="option.label"
-                    />
-                  </el-select>
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="21">
-                <el-form-item label="其他说明:" label-width="120px" prop="countryNameEn">
-                  <el-input
-                    v-model="temp.shipCode"
-                    type="textarea"
-                    :rows="3"
-                    style="width: 100%;"
-                    placeholder="请输入"
-                  />
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="10">
-                <el-form-item label="设备名称：" label-width="120px" prop="count">
-                  <el-input v-model="count" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="设备型号：" label-width="120px" prop="count">
-                  <el-input v-model="count" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="4">
-                <el-button icon="el-icon-check">关联设备</el-button>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="20">
-                <el-form-item label="生产厂家：" label-width="120px" prop="count">
-                  <el-input v-model="count" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="4">
-                <el-button icon="el-icon-check">取消关联</el-button>
-              </el-col>
-            </el-row>
-
-            <el-row :gutter="10">
-              <el-col :span="6">
-                <el-form-item label="岸基审核状态:" label-width="120px" prop="electricalFlag">
-                  <el-switch
-                    v-model="electricalFlag"
-                    active-color="#13ce66"
-                    inactive-color="#C0C0C0"
-                  />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="增加人：" label-width="80px" prop="addPerson">
-                  <el-input v-model="addPerson" />
-                </el-form-item>
-              </el-col>
-              <el-col :span="6">
-                <el-form-item label="增加日期:" label-width="120px" prop="countryNameEn">
-                  <el-date-picker v-model="temp.lastRepairDate" style="width:auto" type="date" placeholder="选择日期" />
-                </el-form-item>
-              </el-col>
-
-              <el-col :span="3">
-                <el-button icon="save">save</el-button>
-              </el-col>
-              <el-col :span="3">
-                <el-button icon="cancel" @click="closeDialog">cancel</el-button>
-              </el-col>
-            </el-row>
-
-          </el-form>
-        </div>
-
-      </el-dialog>
     </div>
 
   </div>
 </template>
 <script>
-import tableComponent from '@/components/TableComponent';
 import { queryCountry, addCountry, updateCountry, deleteCountry } from '@/api/country';
 import { getShipRepairpplyList } from '@/api/shipRepair/repairList';
 import { listCompany, listRepairType, listShip, listRepairProject } from '@/api/common/generalParam';
 import { parseDsErrorMessage } from '@/utils/responseUtil';
 export default {
-  components: { tableComponent },
   data() {
     return {
       dialogConditionVisible: false,
       activeName: 'one',
+      activeName2: 'approval_process',
       active: 3,
       electricalFlag: false, // 是否是电器类
+      approvalRemark: '',
       conditionList: [
         {
           name: 'countryCode',
@@ -466,6 +316,7 @@ export default {
       companies: [],
       ship: [],
       repairTypeList: [],
+      approvalRecords: [], // 执行记录
       validFlagList: [
         { label: '生效', value: true },
         { label: '失效', value: false }
@@ -562,20 +413,20 @@ export default {
         limit: 20,
         total: 0,
         countryCode: '',
-        countryNameZh: '',
-        countryNameEn: '',
         validFlag: undefined
       },
       dialogFormVisible: false,
       dialogStatus: '',
       temp: {
         shipCode: '',
-        applyNo: '',
-        repairType: '',
-        planRepairDate: '',
-        lastRepairDate: '',
+        approvalNo: '',
+        status: '',
         proposer: '',
-        applyDate: ''
+        applyDate: '',
+        repairType: '',
+        electricalFlag: false,
+        planDockDate: '',
+        remark: ''
       },
       rules: {
         // countryCode: [{
@@ -587,20 +438,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.$nextTick(function() {
-      this.tableHeight =
-        window.innerHeight -
-        this.$refs.tableComponent.$refs.table.$el.offsetTop -
-        100;
-      // 监听窗口大小变化
-      const self = this;
-      window.onresize = function() {
-        self.tableHeight =
-          window.innerHeight -
-          self.$refs.tableComponent.$refs.table.$el.offsetTop -
-          100;
-      };
-    });
+
   },
   methods: {
     /* 重置 */
@@ -627,16 +465,6 @@ export default {
       });
     },
 
-    resetTemp() {
-      this.temp = {
-        id: undefined,
-        countryCode: '',
-        countryNameZh: '',
-        countryNameEn: '',
-        timestamp: new Date(),
-        validFlag: true
-      };
-    },
     // 切换标签
     handleClick(tab, event) {
       // console.log(tab, event);
@@ -670,6 +498,19 @@ export default {
         });
     },
 
+    resetTemp() {
+      this.temp = {
+        shipCode: '',
+        approvalNo: '',
+        status: '',
+        proposer: '',
+        applyDate: '',
+        repairType: '',
+        electricalFlag: false,
+        planDockDate: '',
+        remark: ''
+      };
+    },
     chooseAddMethod() {
       if (this.dialogStatus === 'create') {
         return this.createCountry();

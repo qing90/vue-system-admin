@@ -180,6 +180,41 @@ export const asyncRoutes = [
             meta: { title: 'addShipRepairApply' }
           },
           {
+            path: '/shipRepairApproval',
+            component: 'views/efficiency/shipRepairingManagement/shipRepairApply/shipRepairApproval',
+            name: 'shipRepairApproval',
+            hidden:true,//修船申请审批页面
+            meta: { title: 'shipRepairApproval' }
+          },
+          // {
+          //   path: '/standardProject',
+          //   component: 'views/efficiency/shipRepairingManagement/shipRepairApply/standardProject',
+          //   name: 'standardProject',
+          //   hidden:true,//选择标准项目
+          //   meta: { title: 'standardProject' }
+          // },
+          // {
+          //   path: '/repaiLegacyItems',
+          //   component: 'views/efficiency/shipRepairingManagement/shipRepairApply/repaiLegacyItems',
+          //   name: 'repaiLegacyItems',//选择修理遗留项目
+          //   hidden:true,
+          //   meta: { title: 'repaiLegacyItems' }
+          // },
+          // {
+          //   path: '/legacyWorkOrder',
+          //   component: 'views/efficiency/shipRepairingManagement/shipRepairApply/legacyWorkOrder',
+          //   name: 'legacyWorkOrder',
+          //   hidden:true,//选择遗留工单
+          //   meta: { title: 'legacyWorkOrder' }
+          // },
+          // {
+          //   path: '/equipmentFailure',
+          //   component: 'views/efficiency/shipRepairingManagement/shipRepairApply/equipmentFailure',
+          //   name: 'equipmentFailure',
+          //   hidden:true,//选择设备故障单
+          //   meta: { title: 'equipmentFailure' }
+          // },
+          {
             path: 'shipRepairInginquiry',
             component: 'views/efficiency/shipRepairingManagement/shipRepairInginquiry/shipRepairInginquiry',
             name: 'repairLegacy',

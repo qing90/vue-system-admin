@@ -1,3 +1,6 @@
+
+import test from './zh/test_zh'
+
 export default {
   route: {
     dashboard: '首页',
@@ -84,7 +87,7 @@ export default {
     materiel: '安全物料库存',
     equMaintainName: '设备保养体系',
     shipEquInfoName: '船舶设备信息',
-    applyListName:'申请列表',
+    applyListName: '申请列表'
 
   },
   navbar: {
@@ -193,5 +196,7 @@ export default {
     tagsView: '开启 Tags-View',
     fixedHeader: '固定 Header',
     sidebarLogo: '侧边栏 Logo'
-  }
+  },
+  ...test
+
 }

@@ -22,7 +22,7 @@
 
           <el-col :md="6" :lg="5">
             <el-form-item label="船舶：" label-width="90px" prop="ship" style="margin-left: 10px;">
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
+              <el-select v-model="listQuery.ship" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in ship"
                   :key="index"
@@ -48,7 +48,7 @@
               prop="shipType"
               style="margin-left: 10px;"
             >
-              <el-select v-model="listQuery.shipType" placeholder="请选择">
+              <el-select v-model="listQuery.repairTypeList" placeholder="请选择">
                 <el-option
                   v-for="(item,index) in repairTypeList"
                   :key="index"
@@ -73,6 +73,13 @@
     </div>
     <div class="table-container">
       <div class="opt">
+        <el-button
+          plain
+          type="plain"
+          icon="el-icon-plus"
+          class="btn-plain-primary"
+          @click="approval"
+        >审 批</el-button>
         <el-button
           plain
           type="plain"
@@ -332,12 +339,7 @@ export default {
         },
         {
           prop: 'planRepairDate',
-          label: '计划开始日期',
-          align: 'center'
-        },
-        {
-          prop: 'lastRepairDate',
-          label: '上次修理日期',
+          label: '申请来源',
           align: 'center'
         },
         {
@@ -347,6 +349,10 @@ export default {
         {
           prop: 'applyDate',
           label: '申请日期'
+        },
+        {
+          prop: 'status',
+          label: '状态'
         }
       ],
       // 列操作按钮
@@ -481,6 +487,15 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+
+    approval() {
+      this.$router.push({
+        path: '/shipRepairApproval'
+        // query: {
+        //   showType: "add"
+        // }
+      });
     },
     /* 新增 */
     handleAdd() {
